@@ -117,11 +117,9 @@ def event_landing(slug: str, request: Request, db: Session = Depends(get_db)):
 
 
 @app.post("/api/event/{slug}/submit")
-def submit_assessment(slug: str, request: Request, db: Session = Depends(get_db)):
+async def submit_assessment(slug: str, request: Request, db: Session = Depends(get_db)):
     """Single endpoint: register + submit answers + compute score."""
-    import json as _json
-    # Parse body
-    body = asyncio.get_event_loop().run_until_complete(request.json())
+    body = await request.json()
 
     event = db.query(Event).filter(Event.slug == slug).first()
     if not event:
@@ -384,8 +382,9 @@ def admin_qr(event_id: str, request: Request, db: Session = Depends(get_db)):
     img.save(buf, format="PNG")
     buf.seek(0)
 
+    # Use inline disposition so browsers can display it; download link uses <a download>
     return StreamingResponse(buf, media_type="image/png",
-                             headers={"Content-Disposition": f"attachment; filename=qr-{event.slug}.png"})
+                             headers={"Content-Disposition": f"inline; filename=qr-{event.slug}.png"})
 
 
 @app.get("/api/admin/events/{event_id}/participants")
