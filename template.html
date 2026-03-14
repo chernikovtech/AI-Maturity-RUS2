@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{PAGE_TITLE}} — Yango Tech</title>
+  <meta name="description" content="{{PAGE_DESCRIPTION}}">
+
+  <!-- Preload critical fonts -->
+  <link rel="preload" as="font" href="https://yastatic.net/s3/distribution/lpc/fonts/YangoHeadline/YangoHeadline.woff2" crossorigin="anonymous">
+  <link rel="preload" as="font" href="https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Regular.woff2" crossorigin="anonymous">
+  <link rel="preload" as="font" href="https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Medium.woff2" crossorigin="anonymous">
+
+  <!-- Favicon (replace with actual) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23FF1A1A' width='100' height='100' rx='20'/></svg>">
+
+  <style>
+    /* === PASTE boilerplate.css HERE or link as external stylesheet === */
+    /* @import url('./boilerplate.css'); */
+
+    /* === PAGE-SPECIFIC STYLES BELOW === */
+
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="yt-nav" id="nav">
+    <div class="yt-nav__inner">
+      <!-- Logo -->
+      <a href="/" class="yt-nav__logo">
+        <img
+          src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+          alt="Yango Tech"
+          width="176"
+          height="30"
+          loading="eager"
+        >
+      </a>
+
+      <!-- Navigation links -->
+      <ul class="yt-nav__links">
+        <!--
+          Replace these with your actual nav items.
+          For multi-page sites, link to actual pages.
+          For single-page, use anchor links (#section-id).
+        -->
+        <li><a class="yt-nav__link" href="#industries">Industries</a></li>
+        <li><a class="yt-nav__link" href="#products">Products</a></li>
+        <li><a class="yt-nav__link" href="#about">About</a></li>
+        <li><a class="yt-nav__link" href="#contact">Contact</a></li>
+        <li><a class="yt-btn yt-btn--dark" href="#contact">Talk to an expert</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       HERO SECTION (Dark)
+       ============================================================ -->
+  <section class="yt-hero" id="hero">
+    <!-- Background: use video, image, or CSS animation -->
+    <div class="yt-hero__bg">
+      <!--
+        Option A: Video background
+        <video autoplay muted loop playsinline>
+          <source src="hero-bg.mp4" type="video/mp4">
+        </video>
+
+        Option B: Static image
+        <img src="hero-bg.jpg" alt="">
+
+        Option C: Pure CSS (dark with subtle gradient or animation)
+      -->
+      <div style="width:100%; height:100%; background: radial-gradient(ellipse at 30% 50%, rgba(255,26,26,0.15) 0%, transparent 60%), #000;"></div>
+    </div>
+
+    <div class="yt-hero__content yt-container">
+      <h1 class="yt-h1" style="max-width: 50rem;">
+        {{HERO_HEADLINE}}
+      </h1>
+      <p class="yt-body" style="margin-top: 2rem; max-width: 36rem; color: rgba(245,245,245,0.6);">
+        {{HERO_SUBTEXT}}
+      </p>
+      <div style="margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="#contact" class="yt-btn yt-btn--primary">Talk to an expert</a>
+        <a href="#products" class="yt-btn yt-btn--outline" style="border-color: rgba(255,255,255,0.3); color: white;">Learn more</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       BODY SECTION (Light) — Example content section
+       ============================================================ -->
+  <section class="yt-section yt-light" id="industries">
+    <div class="yt-container">
+      <h2 class="yt-h2" style="margin-bottom: 4rem;">
+        {{SECTION_HEADLINE}}
+      </h2>
+
+      <div class="yt-grid-3">
+        <!-- Card template — repeat as needed -->
+        <div class="yt-card">
+          <div class="yt-card__image-wrap">
+            <img src="{{CARD_IMAGE_URL}}" alt="{{CARD_TITLE}}" loading="lazy">
+            <div class="yt-card__tags">
+              <span class="yt-card__tag">{{TAG_1}}</span>
+              <span class="yt-card__tag">{{TAG_2}}</span>
+            </div>
+          </div>
+          <div class="yt-card__body">
+            <h3 class="yt-h3" style="margin-bottom: 1rem;">{{CARD_TITLE}}</h3>
+            <p class="yt-body yt-text-secondary">{{CARD_DESCRIPTION}}</p>
+          </div>
+        </div>
+        <!-- /Card -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       DARK SECTION — Example feature/stats section
+       ============================================================ -->
+  <section class="yt-section yt-dark" id="features">
+    <div class="yt-container">
+      <div class="yt-grid-2" style="align-items: center;">
+        <div>
+          <h2 class="yt-h2" style="margin-bottom: 2rem;">
+            {{FEATURE_HEADLINE}}
+          </h2>
+          <p class="yt-body" style="color: rgba(245,245,245,0.7); max-width: 32rem;">
+            {{FEATURE_DESCRIPTION}}
+          </p>
+          <a href="#" class="yt-btn yt-btn--primary" style="margin-top: 2rem;">
+            {{FEATURE_CTA}}
+          </a>
+        </div>
+        <div>
+          <!-- Feature image, chart, or visual -->
+          <img src="{{FEATURE_IMAGE_URL}}" alt="" style="border-radius: var(--radius-card);" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CONTACT / FORM SECTION
+       ============================================================ -->
+  <section class="yt-section yt-light" id="contact">
+    <div class="yt-container" style="max-width: 48rem;">
+      <h2 class="yt-h2" style="margin-bottom: 3rem; text-align: center;">
+        Get in touch
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <input class="yt-input" type="text" placeholder="Name">
+          <input class="yt-input" type="email" placeholder="Email">
+        </div>
+        <input class="yt-input" type="text" placeholder="Company">
+        <textarea class="yt-input" placeholder="Message"></textarea>
+        <button class="yt-btn yt-btn--primary" style="align-self: flex-start;">
+          Submit
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="yt-footer">
+    <div class="yt-container">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem;">
+        <!-- Logo -->
+        <a href="/">
+          <img
+            src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+            alt="Yango Tech"
+            width="176"
+            height="30"
+            style="filter: invert(1);"
+          >
+        </a>
+
+        <!-- Footer links -->
+        <div style="display: flex; gap: 3.75rem; flex-wrap: wrap;">
+          <div>
+            <p class="yt-label" style="margin-bottom: 1rem; opacity: 0.5;">Industries</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+              <li><a href="#" class="yt-label--sentence">Retail & E-Commerce</a></li>
+              <li><a href="#" class="yt-label--sentence">Banks & Financial Services</a></li>
+              <li><a href="#" class="yt-label--sentence">Government & Smart Cities</a></li>
+              <li><a href="#" class="yt-label--sentence">Logistics & Last-Mile</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="yt-label" style="margin-bottom: 1rem; opacity: 0.5;">Products</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+              <li><a href="#" class="yt-label--sentence">AI Agents</a></li>
+              <li><a href="#" class="yt-label--sentence">AI Studio</a></li>
+              <li><a href="#" class="yt-label--sentence">Route Q</a></li>
+              <li><a href="#" class="yt-label--sentence">Neuro Services</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="yt-footer__bottom">
+        <span class="yt-label" style="opacity: 0.5;">&copy; {{YEAR}} Yango Tech</span>
+        <a href="#" class="yt-label">Privacy Policy</a>
+        <a href="#" class="yt-label">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script>
+    // --- Scroll-triggered fade-in ---
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('yt-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.yt-fade-in').forEach(el => observer.observe(el));
+
+    // --- Nav dark/light mode based on scroll position ---
+    // If you have alternating dark/light sections, toggle .yt-nav--dark
+    // based on which section the user has scrolled into.
+    // Example:
+    // const nav = document.getElementById('nav');
+    // const heroEnd = document.getElementById('hero').offsetHeight;
+    // window.addEventListener('scroll', () => {
+    //   nav.classList.toggle('yt-nav--dark', window.scrollY > heroEnd);
+    // });
+  </script>
+
+</body>
+</html>

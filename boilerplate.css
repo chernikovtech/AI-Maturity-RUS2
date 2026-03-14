@@ -1,0 +1,712 @@
+/* ==========================================================================
+   YANGO TECH — Complete CSS Boilerplate
+   Extracted from tech.yango.com production source
+   Copy this entire file into every Yango-branded web project.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. FONT-FACE DECLARATIONS
+   -------------------------------------------------------------------------- */
+
+/* --- Yango Headline (Display Font — weight 900 only) --- */
+@font-face {
+  font-family: "Yango Headline";
+  src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoHeadline/YangoHeadline.woff2") format("woff2"),
+       url("https://yastatic.net/s3/distribution/lpc/fonts/YangoHeadline/YangoHeadline.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yango Headline";
+  src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoHeadline/YangoHeadline-Italic.woff2") format("woff2"),
+       url("https://yastatic.net/s3/distribution/lpc/fonts/YangoHeadline/YangoHeadline-Italic.woff") format("woff");
+  font-weight: 900;
+  font-style: italic;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+/* --- Yango Group Text (Body/UI Font — weights 100–900) --- */
+@font-face {
+  font-family: "Yango Group Text";
+  src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Thin.woff2") format("woff2"),
+       url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yango Group Text";
+  src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Light.woff2") format("woff2"),
+       url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yango Group Text";
+  src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Regular.woff2") format("woff2"),
+       url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yango Group Text";
+  src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Medium.woff2") format("woff2"),
+       url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yango Group Text";
+  src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Bold.woff2") format("woff2"),
+       url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Bold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yango Group Text";
+  src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Black.woff2") format("woff2"),
+       url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Black.woff2") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+/* --- YS Text (Fallback body font, used by Yandex ecosystem) --- */
+@font-face {
+  font-family: "YS Text";
+  src: url("https://yastatic.net/s3/home/fonts/ys/4/text-light.woff2") format("woff2"),
+       url("https://yastatic.net/s3/home/fonts/ys/4/text-light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "YS Text";
+  src: url("https://yastatic.net/s3/home/fonts/ys/4/text-regular.woff2") format("woff2"),
+       url("https://yastatic.net/s3/home/fonts/ys/4/text-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "YS Text";
+  src: url("https://yastatic.net/s3/home/fonts/ys/4/text-medium.woff2") format("woff2"),
+       url("https://yastatic.net/s3/home/fonts/ys/4/text-medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "YS Text";
+  src: url("https://yastatic.net/s3/home/fonts/ys/4/text-bold.woff2") format("woff2"),
+       url("https://yastatic.net/s3/home/fonts/ys/4/text-bold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  font-display: swap;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. CSS CUSTOM PROPERTIES (Design Tokens)
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Layout */
+  --yt-max-width: 116rem;
+  --yt-padding: 1.87rem;
+
+  /* Colors */
+  --primary-color: #FF1A1A;
+  --body-color: #F5F5F5;
+  --text-primary: #141414;
+  --text-secondary: #7A7A7A;
+  --text-on-dark: #F5F5F5;
+  --surface-dark: #232323;
+  --surface-mid: #323232;
+  --input-bg: rgb(226, 226, 226);
+  --border-color: rgba(196, 196, 196, 1);
+  --dropdown-bg: rgb(245, 245, 245);
+
+  /* Typography */
+  --font-headline: "Yango Headline", Helvetica, Arial, sans-serif;
+  --font-body: "Yango Group Text", "YS Text", Helvetica, Arial, sans-serif;
+  --letter-spacing-body: 0.05em;
+  --letter-spacing-ui: 0.12em;
+  --letter-spacing-headline: calc(1em / 50);
+  --letter-spacing-cta: 0.15em;
+
+  /* Radii */
+  --radius-card: 1.875rem;
+  --radius-pill: 2rem;
+  --radius-dropdown: 2.5rem;
+  --radius-input: 1.25rem;
+  --radius-social: 1rem;
+  --radius-tooltip: 1.5rem;
+  --radius-btn: 2rem;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease-in-out;
+  --transition-image: 1.2s ease-in-out;
+  --transition-card: 0.4s ease-in-out;
+
+  /* Nav */
+  --nav-gradient-color: rgba(0, 0, 0, 0.5);
+
+  /* Links */
+  --link-hover-color: #f00;
+  --link-underline: none;
+  --link-hover-underline: none;
+}
+
+@media (max-width: 1439px) {
+  :root {
+    --yt-padding: 1.25rem;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   3. RESET & BASE STYLES
+   -------------------------------------------------------------------------- */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--body-color);
+  text-transform: none;
+  letter-spacing: var(--letter-spacing-body);
+  font-variant-numeric: proportional-nums;
+}
+
+::selection {
+  background: var(--primary-color);
+  color: white;
+}
+
+a {
+  color: inherit;
+  text-decoration: var(--link-underline);
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: var(--link-hover-underline);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT UTILITIES
+   -------------------------------------------------------------------------- */
+
+.yt-container {
+  width: 100%;
+  max-width: var(--yt-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--yt-padding);
+  padding-right: var(--yt-padding);
+}
+
+.yt-section {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.yt-section--tight {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.yt-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .yt-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.yt-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .yt-grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .yt-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   5. TYPOGRAPHY UTILITIES
+   -------------------------------------------------------------------------- */
+
+.yt-headline {
+  font-family: var(--font-headline);
+  font-weight: 900;
+  letter-spacing: var(--letter-spacing-headline);
+  text-transform: none; /* Headlines can be mixed-case */
+}
+
+.yt-h1 {
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: clamp(3rem, 5vw, 6.25rem);
+  line-height: 85%;
+  letter-spacing: var(--letter-spacing-headline);
+}
+
+.yt-h2 {
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: clamp(2rem, 3.5vw, 3.85rem);
+  line-height: 90%;
+  letter-spacing: var(--letter-spacing-headline);
+}
+
+.yt-h3 {
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 2.5vw, 3rem);
+  line-height: 90%;
+  letter-spacing: var(--letter-spacing-headline);
+}
+
+.yt-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: var(--letter-spacing-body);
+  text-transform: none;
+}
+
+.yt-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-ui);
+  text-transform: uppercase;
+}
+
+/* Sentence-case label variant (for footer link lists, longer labels) */
+.yt-label--sentence {
+  text-transform: none;
+  letter-spacing: var(--letter-spacing-body);
+  font-size: 0.78rem;
+}
+
+.yt-text-secondary {
+  color: var(--text-secondary);
+}
+
+
+/* --------------------------------------------------------------------------
+   6. DARK / LIGHT SECTION THEMES
+   -------------------------------------------------------------------------- */
+
+.yt-dark {
+  background-color: #000;
+  color: var(--text-on-dark);
+}
+
+.yt-dark a:hover {
+  color: var(--primary-color);
+}
+
+.yt-light {
+  background-color: var(--body-color);
+  color: var(--text-primary);
+}
+
+
+/* --------------------------------------------------------------------------
+   7. COMPONENT BASE STYLES
+   -------------------------------------------------------------------------- */
+
+/* --- Buttons --- */
+
+.yt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: var(--letter-spacing-cta);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.yt-btn--primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.yt-btn--primary:hover {
+  background-color: var(--text-primary);
+  color: white;
+}
+
+.yt-btn--dark {
+  background-color: var(--surface-dark);
+  color: var(--text-on-dark);
+}
+
+.yt-btn--dark:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.yt-btn--outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.yt-btn--outline:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+
+/* --- Cards --- */
+
+.yt-card {
+  background: white;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  position: relative;
+}
+
+.yt-card__image-wrap {
+  overflow: hidden;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
+.yt-card__image-wrap img {
+  width: 100%;
+  transition: transform var(--transition-image);
+}
+
+.yt-card:hover .yt-card__image-wrap img {
+  transform: scale(1.1);
+}
+
+.yt-card__body {
+  padding: 2rem;
+}
+
+.yt-card__tag {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  background: rgba(245, 245, 245, 0.4);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-ui);
+  text-transform: uppercase;
+}
+
+/* Tag positioned over image */
+.yt-card__tags {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+
+/* --- Form Inputs --- */
+
+.yt-input {
+  width: 100%;
+  padding: 2rem 1.5rem;
+  background: var(--input-bg);
+  border: none;
+  border-radius: var(--radius-input);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.yt-input::placeholder {
+  color: var(--text-secondary);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+.yt-input:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+textarea.yt-input {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+
+/* --- Navigation (top-level) --- */
+
+.yt-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.25rem var(--yt-padding);
+}
+
+.yt-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--nav-gradient-color) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.yt-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--yt-max-width);
+  margin: 0 auto;
+}
+
+.yt-nav__logo img {
+  height: 30px;
+  width: auto;
+}
+
+/* Dark mode nav (use on light-bg sections) */
+.yt-nav.yt-nav--dark {
+  --nav-gradient-color: rgba(255, 255, 255, 0.6);
+}
+
+.yt-nav.yt-nav--dark .yt-nav__logo img {
+  filter: invert(1);
+}
+
+.yt-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.yt-nav__link {
+  padding: 1.1rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-ui);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-on-dark);
+  transition: var(--transition-fast);
+}
+
+.yt-nav__links:hover .yt-nav__link:not(:hover) {
+  opacity: 0.4;
+}
+
+
+/* --- Footer --- */
+
+.yt-footer {
+  background: var(--text-primary);
+  color: var(--text-on-dark);
+  padding: 4rem 0 2rem;
+}
+
+.yt-footer a {
+  color: var(--text-on-dark);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.yt-footer a:hover {
+  opacity: 0.5;
+  color: var(--text-on-dark);
+}
+
+.yt-footer__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgb(31, 31, 31);
+  border-radius: var(--radius-social);
+  transition: var(--transition-fast);
+}
+
+.yt-footer__social:hover {
+  opacity: 0.5;
+}
+
+.yt-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 3.75rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* --- Hero Section --- */
+
+.yt-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: #000;
+  color: var(--text-on-dark);
+  overflow: hidden;
+  padding-top: 6rem; /* Space for fixed nav */
+}
+
+.yt-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.yt-hero__bg video,
+.yt-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.yt-hero__content {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* --- Tooltips (map-style) --- */
+
+.yt-tooltip {
+  padding: 1.5rem 2.25rem;
+  background: var(--surface-mid);
+  color: var(--text-on-dark);
+  border-radius: var(--radius-tooltip);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-ui);
+  text-transform: uppercase;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. ANIMATION / INTERACTION UTILITIES
+   -------------------------------------------------------------------------- */
+
+.yt-hover-scale {
+  transition: transform var(--transition-image);
+}
+
+.yt-hover-scale:hover {
+  transform: scale(1.1);
+}
+
+.yt-hover-fade {
+  transition: opacity var(--transition-fast);
+}
+
+.yt-hover-fade:hover {
+  opacity: 0.5;
+}
+
+/* Fade-in on scroll (add .yt-visible via JS IntersectionObserver) */
+.yt-fade-in {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.yt-fade-in.yt-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
