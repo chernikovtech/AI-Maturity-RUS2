@@ -164,26 +164,31 @@ async function createEvent() {
   const slug = document.getElementById('ev-slug').value.trim().toLowerCase().replace(/\s+/g, '-');
   if (!name || !slug) { alert('Name and slug are required.'); return; }
 
-  const resp = await fetch('/api/admin/events', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name,
-      slug,
-      location: document.getElementById('ev-location').value.trim(),
-      event_date: document.getElementById('ev-date').value || null,
-      description: document.getElementById('ev-desc').value.trim(),
-    }),
-  });
+  try {
+    const resp = await fetch('/api/admin/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        slug,
+        location: document.getElementById('ev-location').value.trim(),
+        event_date: document.getElementById('ev-date').value || null,
+        description: document.getElementById('ev-desc').value.trim(),
+      }),
+    });
 
-  if (resp.ok) {
-    // Clear form
-    ['ev-name','ev-slug','ev-location','ev-date','ev-desc'].forEach(id =>
-      document.getElementById(id).value = '');
-    loadEvents();
-  } else {
-    const err = await resp.json();
-    alert(err.detail || 'Error creating event');
+    if (resp.ok) {
+      // Clear form
+      ['ev-name','ev-slug','ev-location','ev-date','ev-desc'].forEach(id =>
+        document.getElementById(id).value = '');
+      loadEvents();
+    } else {
+      let msg = 'Error creating event';
+      try { const err = await resp.json(); msg = err.detail || msg; } catch(e) {}
+      alert(msg);
+    }
+  } catch (e) {
+    alert('Connection error: ' + e.message);
   }
 }
 

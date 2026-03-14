@@ -328,12 +328,21 @@ async def admin_create_event(request: Request, db: Session = Depends(get_db)):
     if existing:
         raise HTTPException(status_code=400, detail="Slug already exists")
 
+    # Parse date string (YYYY-MM-DD) to Python date object
+    event_date_str = body.get("event_date")
+    event_date = None
+    if event_date_str:
+        try:
+            event_date = date.fromisoformat(event_date_str)
+        except (ValueError, TypeError):
+            pass
+
     event = Event(
         name=name,
         slug=slug,
         description=body.get("description", ""),
         location=body.get("location", ""),
-        event_date=body.get("event_date") if body.get("event_date") else None,
+        event_date=event_date,
         status="active",
     )
     db.add(event)
