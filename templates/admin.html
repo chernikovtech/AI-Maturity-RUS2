@@ -59,7 +59,7 @@
         <label class="label">Description (optional)</label>
         <input class="input" id="ev-desc" placeholder="Round-table discussion on AI literacy">
       </div>
-      <button class="btn btn--primary" style="margin-top:1rem;" onclick="createEvent()">Create Event</button>
+      <button class="btn btn--primary" style="margin-top:1rem;" onclick="handleCreateEvent()">Create Event</button>
     </div>
 
     <!-- Event List -->
@@ -159,7 +159,7 @@ async function loadEvents() {
   `).join('');
 }
 
-async function createEvent() {
+async function handleCreateEvent() {
   const name = document.getElementById('ev-name').value.trim();
   const slug = document.getElementById('ev-slug').value.trim().toLowerCase().replace(/\s+/g, '-');
   if (!name || !slug) { alert('Name and slug are required.'); return; }
