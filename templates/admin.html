@@ -67,6 +67,19 @@
       <!-- Populated by JS -->
     </div>
 
+    <!-- QR Code Modal -->
+    <div id="qr-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; display:none; align-items:center; justify-content:center;" onclick="if(event.target===this)closeQR()">
+      <div class="card" style="max-width:400px; width:90%; text-align:center; padding:2.5rem;">
+        <h3 class="headline" style="font-size:1rem; margin-bottom:0.25rem;" id="qr-title"></h3>
+        <p class="text-secondary" style="margin-bottom:1.5rem; font-size:0.78rem;" id="qr-url"></p>
+        <img id="qr-image" style="width:100%; max-width:280px; margin:0 auto 1.5rem; border-radius:var(--radius-input);">
+        <div style="display:flex; gap:0.75rem;">
+          <a id="qr-download-link" class="btn btn--primary btn--full btn--small" download>Download PNG</a>
+          <button class="btn btn--outline btn--full btn--small" onclick="closeQR()">Close</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Participant Detail (hidden by default) -->
     <div id="participant-detail" style="display:none; margin-top:2rem;">
       <h3 class="headline h3" id="detail-title" style="margin-bottom:1rem;"></h3>
@@ -193,7 +206,21 @@ async function handleCreateEvent() {
 }
 
 function downloadQR(eventId, slug) {
-  window.open(`/api/admin/events/${eventId}/qr`, '_blank');
+  const modal = document.getElementById('qr-modal');
+  const img = document.getElementById('qr-image');
+  const link = document.getElementById('qr-download-link');
+  const url = `${BASE}/event/${slug}`;
+
+  document.getElementById('qr-title').textContent = slug;
+  document.getElementById('qr-url').textContent = url;
+  img.src = `/api/admin/events/${eventId}/qr`;
+  link.href = `/api/admin/events/${eventId}/qr`;
+  link.download = `qr-${slug}.png`;
+  modal.style.display = 'flex';
+}
+
+function closeQR() {
+  document.getElementById('qr-modal').style.display = 'none';
 }
 
 function copyLink(slug) {

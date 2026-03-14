@@ -384,8 +384,9 @@ def admin_qr(event_id: str, request: Request, db: Session = Depends(get_db)):
     img.save(buf, format="PNG")
     buf.seek(0)
 
+    # Use inline disposition so browsers can display it; download link uses <a download>
     return StreamingResponse(buf, media_type="image/png",
-                             headers={"Content-Disposition": f"attachment; filename=qr-{event.slug}.png"})
+                             headers={"Content-Disposition": f"inline; filename=qr-{event.slug}.png"})
 
 
 @app.get("/api/admin/events/{event_id}/participants")
