@@ -38,6 +38,8 @@ def generate_infographic_pdf(
     c = canvas.Canvas(buf, pagesize=A4)
 
     _draw_page(c, total_score, level, dimension_scores, event_name)
+    c.showPage()
+    _draw_framework_page(c)
 
     c.save()
     buf.seek(0)
@@ -237,3 +239,187 @@ def _draw_radar(c, cx, cy, radius, dimension_scores):
         for px, py in points:
             c.setFillColor(RED)
             c.circle(px, py, 3, fill=1, stroke=0)
+
+
+def _draw_framework_page(c):
+    """Page 2: AI Maturity Framework — dual-track philosophy, 5 stages, risk matrix."""
+    margin = 30
+
+    # ── Dark header band ──────────────────────────────────────────────────
+    header_h = 130
+    c.setFillColor(DARK)
+    c.rect(0, H - header_h, W, header_h, fill=1, stroke=0)
+
+    c.setFillColor(WHITE)
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(margin, H - 40, "YANGO TECH")
+    c.setFont("Helvetica", 9)
+    c.setFillColor(HexColor("#999999"))
+    c.drawString(margin, H - 55, "AI Maturity Framework")
+
+    c.setFillColor(WHITE)
+    c.setFont("Helvetica-Bold", 28)
+    c.drawString(margin, H - 105, "AI MATURITY FRAMEWORK")
+
+    # ── Body background ───────────────────────────────────────────────────
+    c.setFillColor(LIGHT_BG)
+    c.rect(0, 0, W, H - header_h, fill=1, stroke=0)
+
+    y = H - header_h - 35
+
+    # ── Dual-Track Philosophy ─────────────────────────────────────────────
+    c.setFillColor(RED)
+    c.setFont("Helvetica-Bold", 8)
+    c.drawString(margin, y, "CORE CONCEPT")
+    y -= 20
+    c.setFillColor(DARK)
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(margin, y, "THE DUAL-TRACK PHILOSOPHY")
+    y -= 16
+    c.setFillColor(MID_GREY)
+    c.setFont("Helvetica", 8)
+    c.drawString(margin, y, "True AI maturity requires synchronized progression of organizational infrastructure and individual capability.")
+    y -= 25
+
+    # Two track cards side by side
+    card_w = (W - margin * 2 - 15) / 2
+    card_h = 120
+    left_x = margin
+    right_x = margin + card_w + 15
+
+    # Organizational Track card
+    c.setFillColor(WHITE)
+    c.roundRect(left_x, y - card_h, card_w, card_h, 8, fill=1, stroke=0)
+    c.setFillColor(DARK)
+    c.roundRect(left_x, y - card_h, 4, card_h, 2, fill=1, stroke=0)
+
+    c.setFont("Helvetica-Bold", 8)
+    c.setFillColor(DARK)
+    c.drawString(left_x + 14, y - 16, "ORGANIZATIONAL TRACK")
+    org_items = [
+        "Data infrastructure and security posture",
+        "Strategic resource allocation for AI initiatives",
+        "Ethical governance policies and compliance",
+        "Vendor and model management protocols",
+    ]
+    c.setFont("Helvetica", 7.5)
+    c.setFillColor(HexColor("#555555"))
+    for i, item in enumerate(org_items):
+        iy = y - 34 - i * 20
+        c.setFillColor(DARK)
+        c.circle(left_x + 18, iy + 3, 2, fill=1, stroke=0)
+        c.setFillColor(HexColor("#555555"))
+        c.drawString(left_x + 26, iy, item)
+
+    # Individual Track card
+    c.setFillColor(WHITE)
+    c.roundRect(right_x, y - card_h, card_w, card_h, 8, fill=1, stroke=0)
+    c.setFillColor(RED)
+    c.roundRect(right_x, y - card_h, 4, card_h, 2, fill=1, stroke=0)
+
+    c.setFont("Helvetica-Bold", 8)
+    c.setFillColor(RED)
+    c.drawString(right_x + 14, y - 16, "INDIVIDUAL TRACK")
+    ind_items = [
+        "Prompt engineering and AI syntax fluency",
+        "Workflow integration capabilities",
+        "Critical output verification and judgment",
+        "Change management resilience",
+    ]
+    c.setFont("Helvetica", 7.5)
+    for i, item in enumerate(ind_items):
+        iy = y - 34 - i * 20
+        c.setFillColor(RED)
+        c.circle(right_x + 18, iy + 3, 2, fill=1, stroke=0)
+        c.setFillColor(HexColor("#555555"))
+        c.drawString(right_x + 26, iy, item)
+
+    y -= card_h + 30
+
+    # ── Imbalance Risk Matrix ─────────────────────────────────────────────
+    risk_h = 60
+    risk_w = card_w
+
+    c.setFillColor(WHITE)
+    c.roundRect(left_x, y - risk_h, risk_w, risk_h, 8, fill=1, stroke=0)
+    c.setFillColor(RED)
+    c.roundRect(left_x, y - risk_h, 3, risk_h, 2, fill=1, stroke=0)
+    c.setFont("Helvetica-Bold", 8)
+    c.setFillColor(RED)
+    c.drawString(left_x + 12, y - 16, "SHADOW AI")
+    c.setFont("Helvetica", 7)
+    c.setFillColor(HexColor("#555555"))
+    c.drawString(left_x + 12, y - 30, "High individual adoption, low governance.")
+    c.drawString(left_x + 12, y - 42, "Security and compliance risk grows unchecked.")
+
+    c.setFillColor(WHITE)
+    c.roundRect(right_x, y - risk_h, risk_w, risk_h, 8, fill=1, stroke=0)
+    c.setFillColor(MID_GREY)
+    c.roundRect(right_x, y - risk_h, 3, risk_h, 2, fill=1, stroke=0)
+    c.setFont("Helvetica-Bold", 8)
+    c.setFillColor(DARK)
+    c.drawString(right_x + 12, y - 16, "SHELFWARE AI")
+    c.setFont("Helvetica", 7)
+    c.setFillColor(HexColor("#555555"))
+    c.drawString(right_x + 12, y - 30, "High infrastructure investment, zero adoption.")
+    c.drawString(right_x + 12, y - 42, "Training gaps leave workforce unable to extract value.")
+
+    y -= risk_h + 30
+
+    # ── 5 Stages of AI Maturity ───────────────────────────────────────────
+    c.setFillColor(RED)
+    c.setFont("Helvetica-Bold", 8)
+    c.drawString(margin, y, "PROGRESSION MODEL")
+    y -= 20
+    c.setFillColor(DARK)
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(margin, y, "THE 5 STAGES OF AI MATURITY")
+    y -= 25
+
+    stages = [
+        ("1. AWARENESS", "Ad-hoc experimentation. No official policy. High risk of data leaks and inconsistent outputs."),
+        ("2. EXPLORATION", "Sanctioned pilots begin. Basic guidelines established. Tooling is evaluated against use cases."),
+        ("3. TRANSITION", "Scaling successful pilots across business units. Official training programs launch organization-wide."),
+        ("4. INTEGRATION", "AI embedded in core workflows. Proprietary data connected securely. Measurable ROI tracked per department."),
+        ("5. TRANSFORMATION", "AI-first operations. Autonomous agents handle entire processes. Continuous learning culture is standard."),
+    ]
+
+    stage_h = 48
+    for i, (title, desc) in enumerate(stages):
+        sy = y - i * (stage_h + 6)
+        is_active = (i == 2)  # Transition is highlighted
+
+        # Background
+        bg = DARK if is_active else WHITE
+        c.setFillColor(bg)
+        c.roundRect(margin, sy - stage_h, W - margin * 2, stage_h, 8, fill=1, stroke=0)
+
+        # Number circle
+        circle_x = margin + 24
+        circle_y = sy - stage_h / 2
+        if is_active:
+            c.setFillColor(RED)
+        else:
+            c.setFillColor(LIGHT_BG)
+        c.circle(circle_x, circle_y, 12, fill=1, stroke=0)
+        c.setFillColor(DARK if not is_active else WHITE)
+        c.setFont("Helvetica-Bold", 9)
+        c.drawCentredString(circle_x, circle_y - 3, str(i + 1))
+
+        # Title
+        c.setFillColor(WHITE if is_active else DARK)
+        c.setFont("Helvetica-Bold", 10)
+        c.drawString(margin + 44, sy - 18, title)
+
+        # Description
+        c.setFillColor(HexColor("#AAAAAA") if is_active else HexColor("#555555"))
+        c.setFont("Helvetica", 7.5)
+        c.drawString(margin + 44, sy - 34, desc[:100])
+        if len(desc) > 100:
+            c.drawString(margin + 44, sy - 44, desc[100:])
+
+    # ── Footer ────────────────────────────────────────────────────────────
+    c.setFillColor(MID_GREY)
+    c.setFont("Helvetica", 7)
+    c.drawString(margin, 20, "Powered by Yango Tech  |  AI Maturity Framework  |  tech.yango.com")
+    c.drawRightString(W - margin, 20, "Read more: /framework")

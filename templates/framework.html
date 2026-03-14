@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Maturity Framework — Yango Tech</title>
+  <meta name="description" content="Yango Tech's AI Maturity Framework: a dual-track model for organizational and individual AI readiness across emerging markets.">
+
+  <link rel="preload" as="font" href="https://yastatic.net/s3/distribution/lpc/fonts/YangoHeadline/YangoHeadline.woff2" crossorigin="anonymous">
+  <link rel="preload" as="font" href="https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Regular.woff2" crossorigin="anonymous">
+  <link rel="preload" as="font" href="https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Medium.woff2" crossorigin="anonymous">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23FF1A1A' width='100' height='100' rx='20'/></svg>">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* === YANGO TECH BOILERPLATE === */
+    @font-face {
+      font-family: "Yango Headline";
+      src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoHeadline/YangoHeadline.woff2") format("woff2"),
+           url("https://yastatic.net/s3/distribution/lpc/fonts/YangoHeadline/YangoHeadline.woff") format("woff");
+      font-weight: 900; font-style: normal; font-stretch: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Yango Group Text";
+      src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Regular.woff2") format("woff2"),
+           url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Regular.woff") format("woff");
+      font-weight: 400; font-style: normal; font-stretch: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Yango Group Text";
+      src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Light.woff2") format("woff2"),
+           url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Light.woff") format("woff");
+      font-weight: 300; font-style: normal; font-stretch: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Yango Group Text";
+      src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Medium.woff2") format("woff2"),
+           url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Medium.woff") format("woff");
+      font-weight: 500; font-style: normal; font-stretch: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Yango Group Text";
+      src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Bold.woff2") format("woff2"),
+           url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Bold.woff") format("woff");
+      font-weight: 600; font-style: normal; font-stretch: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Yango Group Text";
+      src: url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Black.woff2") format("woff2"),
+           url("https://yastatic.net/s3/distribution/lpc/fonts/YangoGroupText/YangoGroupText-Black.woff2") format("woff");
+      font-weight: 900; font-style: normal; font-stretch: normal; font-display: swap;
+    }
+
+    :root {
+      --yt-max-width: 116rem;
+      --yt-padding: 1.87rem;
+      --primary-color: #FF1A1A;
+      --body-color: #F5F5F5;
+      --text-primary: #141414;
+      --text-secondary: #7A7A7A;
+      --text-on-dark: #F5F5F5;
+      --surface-dark: #232323;
+      --surface-mid: #323232;
+      --border-color: rgba(196, 196, 196, 1);
+      --font-headline: "Yango Headline", Helvetica, Arial, sans-serif;
+      --font-body: "Yango Group Text", Helvetica, Arial, sans-serif;
+      --letter-spacing-body: 0.05em;
+      --letter-spacing-ui: 0.12em;
+      --letter-spacing-headline: calc(1em / 50);
+      --radius-card: 1.875rem;
+      --radius-pill: 2rem;
+      --transition-fast: 0.2s ease-in-out;
+    }
+
+    @media (max-width: 1439px) {
+      :root { --yt-padding: 1.25rem; }
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--text-primary);
+      background-color: var(--body-color);
+      letter-spacing: var(--letter-spacing-body);
+      font-variant-numeric: proportional-nums;
+    }
+    ::selection { background: var(--primary-color); color: white; }
+    a { color: inherit; text-decoration: none; transition: var(--transition-fast); }
+    a:hover { color: var(--primary-color); }
+    img { max-width: 100%; height: auto; display: block; }
+
+    .yt-container {
+      width: 100%;
+      max-width: var(--yt-max-width);
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: var(--yt-padding);
+      padding-right: var(--yt-padding);
+    }
+
+    .yt-h1 {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      line-height: 85%;
+      letter-spacing: var(--letter-spacing-headline);
+      text-transform: uppercase;
+    }
+    .yt-h2 {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 90%;
+      letter-spacing: var(--letter-spacing-headline);
+      text-transform: uppercase;
+    }
+    .yt-h3 {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: clamp(1.3rem, 2vw, 2rem);
+      line-height: 90%;
+      letter-spacing: var(--letter-spacing-headline);
+      text-transform: uppercase;
+    }
+    .yt-label {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.72rem;
+      line-height: 1.2;
+      letter-spacing: var(--letter-spacing-ui);
+      text-transform: uppercase;
+    }
+
+    /* === NAV === */
+    .yt-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1.25rem var(--yt-padding);
+    }
+    .yt-nav::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+      pointer-events: none; z-index: -1;
+    }
+    .yt-nav__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: var(--yt-max-width); margin: 0 auto;
+    }
+    .yt-nav__logo img { height: 30px; width: auto; }
+    .yt-nav__links {
+      display: flex; align-items: center; gap: 0.5rem; list-style: none;
+    }
+    .yt-nav__link {
+      padding: 1.1rem 1rem; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: var(--letter-spacing-ui); text-transform: uppercase;
+      color: var(--text-on-dark);
+    }
+    .yt-nav__links:hover .yt-nav__link:not(:hover) { opacity: 0.4; }
+
+    @media (max-width: 768px) {
+      .yt-nav__links { display: none; }
+    }
+
+    /* === HERO === */
+    .yt-hero {
+      position: relative; min-height: 85vh; display: flex; align-items: center;
+      background: #000; color: var(--text-on-dark); overflow: hidden; padding-top: 6rem;
+    }
+    .yt-hero__bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .yt-hero__content { position: relative; z-index: 1; }
+
+    /* === PAGE SECTIONS === */
+    .yt-section { padding-top: 6rem; padding-bottom: 6rem; }
+    .yt-dark { background-color: #000; color: var(--text-on-dark); }
+    .yt-light { background-color: var(--body-color); color: var(--text-primary); }
+
+    .yt-card {
+      background: white; border-radius: var(--radius-card); overflow: hidden;
+    }
+    .yt-card__body { padding: 2rem; }
+
+    /* === DUAL TRACK CARDS === */
+    .track-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    @media (max-width: 768px) {
+      .track-grid { grid-template-columns: 1fr; }
+    }
+    .track-card {
+      background: white; border-radius: var(--radius-card); padding: 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .track-card::before {
+      content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+    }
+    .track-card--org::before { background: var(--text-primary); }
+    .track-card--ind::before { background: var(--primary-color); }
+    .track-item {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .track-item:last-child { border-bottom: none; }
+    .track-dot {
+      width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0;
+    }
+    .track-dot--dark { background: var(--text-primary); }
+    .track-dot--red { background: var(--primary-color); }
+
+    /* === MATURITY STAGES === */
+    .stages-track {
+      display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;
+    }
+    .stage-card {
+      flex: 1; min-width: 180px; background: white; border-radius: var(--radius-card);
+      padding: 2rem 1.5rem; text-align: center; position: relative;
+      transition: var(--transition-fast);
+    }
+    .stage-card--active {
+      background: var(--text-primary); color: var(--text-on-dark);
+    }
+    .stage-num {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; font-weight: 600; font-size: 0.875rem;
+      background: var(--body-color); color: var(--text-primary);
+    }
+    .stage-card--active .stage-num {
+      background: var(--primary-color); color: white;
+    }
+    .stage-title {
+      font-family: var(--font-headline); font-weight: 900;
+      font-size: 1.1rem; line-height: 90%;
+      letter-spacing: var(--letter-spacing-headline);
+      text-transform: uppercase; margin-bottom: 0.75rem;
+    }
+    .stage-desc {
+      font-size: 0.8rem; line-height: 1.5; color: var(--text-secondary);
+    }
+    .stage-card--active .stage-desc { color: rgba(245,245,245,0.6); }
+
+    /* === CHART SECTIONS === */
+    .chart-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    @media (max-width: 900px) {
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+    .chart-card {
+      background: white; border-radius: var(--radius-card); padding: 2.5rem;
+      display: flex; flex-direction: column;
+    }
+    .chart-card--dark {
+      background: var(--text-primary); color: var(--text-on-dark);
+    }
+    .chart-wrap {
+      position: relative; width: 100%; flex-grow: 1; min-height: 300px; margin-top: 1.5rem;
+    }
+    .chart-card--wide {
+      background: white; border-radius: var(--radius-card); padding: 2.5rem;
+    }
+    .chart-wrap--wide {
+      position: relative; width: 100%; height: 380px; margin-top: 1.5rem;
+    }
+
+    /* === RISK MATRIX === */
+    .risk-grid {
+      display: grid; grid-template-columns: auto 1fr 1fr; gap: 0;
+      max-width: 600px; margin: 2rem auto 0;
+    }
+    .risk-cell {
+      padding: 2rem; text-align: center; border-radius: var(--radius-card);
+    }
+    .risk-label {
+      font-family: var(--font-headline); font-weight: 900; font-size: 0.85rem;
+      letter-spacing: var(--letter-spacing-headline); text-transform: uppercase;
+      writing-mode: vertical-rl; transform: rotate(180deg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .risk-label--h {
+      writing-mode: horizontal-tb; transform: none;
+    }
+
+    /* === REFERENCES === */
+    .ref-list { list-style: none; }
+    .ref-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .ref-item:last-child { border-bottom: none; }
+    .ref-link {
+      font-weight: 500; font-size: 0.95rem;
+      letter-spacing: var(--letter-spacing-body);
+    }
+    .ref-link:hover { color: var(--primary-color); }
+    .ref-note {
+      color: rgba(245,245,245,0.4); font-size: 0.8rem; margin-top: 0.4rem;
+    }
+    .ref-tag {
+      display: inline-block; padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-pill); font-size: 0.65rem;
+      font-weight: 500; letter-spacing: var(--letter-spacing-ui);
+      text-transform: uppercase; margin-right: 0.5rem;
+    }
+
+    /* === FOOTER === */
+    .yt-footer {
+      background: var(--text-primary); color: var(--text-on-dark);
+      padding: 4rem 0 2rem;
+    }
+    .yt-footer a { color: var(--text-on-dark); }
+    .yt-footer a:hover { opacity: 0.5; color: var(--text-on-dark); }
+    .yt-footer__bottom {
+      display: flex; flex-wrap: wrap; gap: 1rem 3.75rem;
+      margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* === FADE IN === */
+    .yt-fade-in {
+      opacity: 0; transform: translateY(2rem);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .yt-fade-in.yt-visible { opacity: 1; transform: translateY(0); }
+
+    /* === CONNECTOR LINE === */
+    .connector {
+      display: none; height: 2px; background: rgba(0,0,0,0.1);
+      position: absolute; top: 50%; left: 0; right: 0; z-index: -1;
+    }
+    @media (min-width: 769px) {
+      .connector { display: block; }
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- NAV -->
+
+  <nav class="yt-nav" id="nav">
+    <div class="yt-nav__inner">
+      <a href="https://tech.yango.com" class="yt-nav__logo">
+        <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+          alt="Yango Tech" width="176" height="30" loading="eager">
+      </a>
+      <ul class="yt-nav__links">
+        <li><a class="yt-nav__link" href="#philosophy">Philosophy</a></li>
+        <li><a class="yt-nav__link" href="#stages">Stages</a></li>
+        <li><a class="yt-nav__link" href="#data">Data</a></li>
+        <li><a class="yt-nav__link" href="#references">References</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="yt-hero" id="hero">
+    <div class="yt-hero__bg">
+      <div style="width:100%; height:100%; background: radial-gradient(ellipse at 20% 60%, rgba(255,26,26,0.12) 0%, transparent 50%), radial-gradient(ellipse at 80% 30%, rgba(255,26,26,0.06) 0%, transparent 50%), #000;"></div>
+    </div>
+    <div class="yt-hero__content yt-container">
+      <p class="yt-label" style="margin-bottom: 1.5rem; opacity: 0.5;">AI Readiness &middot; Emerging Markets</p>
+      <h1 class="yt-h1" style="max-width: 52rem;">
+        AI Maturity<br>Framework
+      </h1>
+      <p style="margin-top: 2rem; max-width: 38rem; color: rgba(245,245,245,0.55); font-size: 1rem; line-height: 1.7; letter-spacing: var(--letter-spacing-body);">
+        A dual-track model for evaluating and accelerating artificial intelligence readiness — balancing organizational infrastructure with individual capability across 35+ markets.
+      </p>
+    </div>
+  </section>
+
+  <!-- DUAL-TRACK PHILOSOPHY -->
+
+  <section class="yt-section yt-light yt-fade-in" id="philosophy">
+    <div class="yt-container">
+      <p class="yt-label" style="color: var(--primary-color); margin-bottom: 1.5rem;">Core Concept</p>
+      <h2 class="yt-h2" style="margin-bottom: 2rem; max-width: 48rem;">The Dual-Track Philosophy</h2>
+      <p style="max-width: 52rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8; margin-bottom: 3rem;">
+        True AI maturity cannot be achieved through technological infrastructure alone. It requires synchronized progression where organizational architecture evolves in lockstep with individual adaptability. When these tracks fall out of balance, organizations face predictable failure modes — either ungoverned "Shadow AI" or expensive, unused "Shelfware AI."
+      </p>
+
+      <div class="track-grid">
+        <div class="track-card track-card--org">
+          <p class="yt-label" style="margin-bottom: 1.5rem;">Organizational Track</p>
+          <div class="track-item">
+            <span class="track-dot track-dot--dark"></span>
+            <span>Data infrastructure and security posture</span>
+          </div>
+          <div class="track-item">
+            <span class="track-dot track-dot--dark"></span>
+            <span>Strategic resource allocation for AI initiatives</span>
+          </div>
+          <div class="track-item">
+            <span class="track-dot track-dot--dark"></span>
+            <span>Ethical governance policies and compliance</span>
+          </div>
+          <div class="track-item">
+            <span class="track-dot track-dot--dark"></span>
+            <span>Vendor and model management protocols</span>
+          </div>
+        </div>
+
+        <div class="track-card track-card--ind">
+          <p class="yt-label" style="margin-bottom: 1.5rem; color: var(--primary-color);">Individual Track</p>
+          <div class="track-item">
+            <span class="track-dot track-dot--red"></span>
+            <span>Prompt engineering and AI syntax fluency</span>
+          </div>
+          <div class="track-item">
+            <span class="track-dot track-dot--red"></span>
+            <span>Workflow integration capabilities</span>
+          </div>
+          <div class="track-item">
+            <span class="track-dot track-dot--red"></span>
+            <span>Critical output verification and judgment</span>
+          </div>
+          <div class="track-item">
+            <span class="track-dot track-dot--red"></span>
+            <span>Change management resilience</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Risk Matrix -->
+      <div style="margin-top: 4rem;">
+        <h3 class="yt-h3" style="margin-bottom: 0.75rem;">Imbalance Risk Matrix</h3>
+        <p style="color: var(--text-secondary); max-width: 40rem; margin-bottom: 2rem;">
+          When either track outpaces the other, predictable failure modes emerge.
+        </p>
+        <div style="max-width: 550px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div style="background: white; border-radius: var(--radius-card); padding: 2rem; border-left: 3px solid var(--primary-color);">
+              <p class="yt-label" style="color: var(--primary-color); margin-bottom: 0.75rem;">Shadow AI</p>
+              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                High individual adoption, low governance. Employees use personal AI tools with proprietary data. Security and compliance risk grows unchecked.
+              </p>
+            </div>
+            <div style="background: white; border-radius: var(--radius-card); padding: 2rem; border-left: 3px solid var(--text-secondary);">
+              <p class="yt-label" style="margin-bottom: 0.75rem;">Shelfware AI</p>
+              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                High infrastructure investment, zero adoption. Enterprise licenses go unused. Training gaps leave the workforce unable to extract value.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 MATURITY STAGES -->
+
+  <section class="yt-section yt-dark yt-fade-in" id="stages">
+    <div class="yt-container">
+      <p class="yt-label" style="color: var(--primary-color); margin-bottom: 1.5rem;">Progression Model</p>
+      <h2 class="yt-h2" style="margin-bottom: 1.5rem;">The 5 Stages of AI Maturity</h2>
+      <p style="max-width: 48rem; color: rgba(245,245,245,0.55); font-size: 0.95rem; line-height: 1.8; margin-bottom: 3.5rem;">
+        Organizations and their workforce progress through five distinct stages. The goal is to move from ad-hoc, fragmented usage toward an embedded, AI-first operational model — with both tracks advancing together.
+      </p>
+
+      <div class="stages-track" style="position: relative;">
+        <div class="connector"></div>
+        <div class="stage-card">
+          <div class="stage-num">1</div>
+          <div class="stage-title">Awareness</div>
+          <div class="stage-desc">Ad-hoc experimentation. No official policy. High risk of data leaks and inconsistent outputs.</div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">2</div>
+          <div class="stage-title">Exploration</div>
+          <div class="stage-desc">Sanctioned pilots begin. Basic guidelines established. Tooling is evaluated against use cases.</div>
+        </div>
+        <div class="stage-card stage-card--active">
+          <div class="stage-num">3</div>
+          <div class="stage-title">Transition</div>
+          <div class="stage-desc">Scaling successful pilots across business units. Official training programs launch organization-wide.</div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">4</div>
+          <div class="stage-title">Integration</div>
+          <div class="stage-desc">AI embedded in core workflows. Proprietary data connected securely. Measurable ROI tracked per department.</div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">5</div>
+          <div class="stage-title">Transformation</div>
+          <div class="stage-desc">AI-first operations. Autonomous agents handle entire processes. Continuous learning culture is standard.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATA & CHARTS -->
+
+  <section class="yt-section yt-light yt-fade-in" id="data">
+    <div class="yt-container">
+      <p class="yt-label" style="color: var(--primary-color); margin-bottom: 1.5rem;">Framework Analytics</p>
+      <h2 class="yt-h2" style="margin-bottom: 3.5rem;">Measuring Maturity</h2>
+
+      <!-- Row 1: Radar + Doughnut -->
+      <div class="chart-grid" style="margin-bottom: 2rem;">
+        <div class="chart-card">
+          <p class="yt-label" style="margin-bottom: 0.5rem;">Capability Gap Analysis</p>
+          <p style="color: var(--text-secondary); font-size: 0.8rem;">Organizational infrastructure vs. workforce readiness across key pillars.</p>
+          <div class="chart-wrap">
+            <canvas id="radarChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <p class="yt-label" style="margin-bottom: 0.5rem;">Workforce Skill Distribution</p>
+          <p style="color: var(--text-secondary); font-size: 0.8rem;">Current breakdown of AI proficiency levels during the Transition phase.</p>
+          <div class="chart-wrap">
+            <canvas id="doughnutChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: ROI Trajectory (wide) -->
+      <div class="chart-card--wide" style="margin-bottom: 2rem;">
+        <p class="yt-label" style="margin-bottom: 0.5rem;">Value Realization Trajectory</p>
+        <p style="color: var(--text-secondary); font-size: 0.8rem; max-width: 48rem;">
+          Early stages incur costs for infrastructure and training before breaking even during the Transition phase, followed by exponential returns in Integration and Transformation.
+        </p>
+        <div class="chart-wrap--wide">
+          <canvas id="lineChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Row 3: Bar + Scatter -->
+      <div class="chart-grid">
+        <div class="chart-card">
+          <p class="yt-label" style="margin-bottom: 0.5rem;">Strategic Priorities by Stage</p>
+          <p style="color: var(--text-secondary); font-size: 0.8rem;">How resource allocation shifts as an organization matures through the framework.</p>
+          <div class="chart-wrap">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card chart-card--dark">
+          <p class="yt-label" style="margin-bottom: 0.5rem; color: var(--primary-color);">Departmental ROI vs. Adoption</p>
+          <p style="color: rgba(245,245,245,0.5); font-size: 0.8rem;">Correlation between user adoption rates and measurable efficiency gains by department.</p>
+          <div class="chart-wrap">
+            <canvas id="scatterChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+
+  <section class="yt-section yt-dark yt-fade-in" id="references">
+    <div class="yt-container" style="max-width: 52rem;">
+      <p class="yt-label" style="color: var(--primary-color); margin-bottom: 1.5rem;">Further Reading</p>
+      <h2 class="yt-h2" style="margin-bottom: 3rem;">References &amp; Sources</h2>
+
+      <ul class="ref-list">
+        <li class="ref-item">
+          <span class="ref-tag" style="background: var(--primary-color); color: white;">Framework</span>
+          <a href="#" class="ref-link">Nate Jones — AI Maturity Framework &amp; Methodology</a>
+          <p class="ref-note">Primary reference for the dual-track maturity model, stage definitions, and capability gap analysis structure underpinning this guide.</p>
+        </li>
+        <li class="ref-item">
+          <span class="ref-tag" style="background: rgba(255,255,255,0.1); color: rgba(245,245,245,0.7);">Research</span>
+          <a href="https://hbr.org/2023/07/how-to-build-an-ai-ready-workforce" target="_blank" class="ref-link">
+            Harvard Business Review — Building an AI-Ready Workforce
+          </a>
+          <p class="ref-note">Foundational concepts on bridging the individual skills gap across enterprise organizations.</p>
+        </li>
+        <li class="ref-item">
+          <span class="ref-tag" style="background: rgba(255,255,255,0.1); color: rgba(245,245,245,0.7);">Data</span>
+          <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" class="ref-link">
+            McKinsey &amp; Company — The State of AI
+          </a>
+          <p class="ref-note">Supporting data for the value realization trajectory and maturity stage benchmarks.</p>
+        </li>
+        <li class="ref-item">
+          <span class="ref-tag" style="background: rgba(255,255,255,0.1); color: rgba(245,245,245,0.7);">Academic</span>
+          <a href="https://mitsloan.mit.edu/ideas-made-to-matter/machine-learning-explained" target="_blank" class="ref-link">
+            MIT Sloan — Organizational Alignment for Machine Learning
+          </a>
+          <p class="ref-note">Core reference for organizational capability pillars and governance structure design.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer class="yt-footer">
+    <div class="yt-container">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem;">
+        <a href="https://tech.yango.com">
+          <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+            alt="Yango Tech" width="176" height="30" style="filter: invert(1);">
+        </a>
+        <div style="display: flex; gap: 3.75rem; flex-wrap: wrap;">
+          <div>
+            <p class="yt-label" style="margin-bottom: 1rem; opacity: 0.5;">Industries</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+              <li><a href="https://tech.yango.com" style="font-size: 0.8rem;">Retail & E-Commerce</a></li>
+              <li><a href="https://tech.yango.com" style="font-size: 0.8rem;">Banks & Financial Services</a></li>
+              <li><a href="https://tech.yango.com" style="font-size: 0.8rem;">Government & Smart Cities</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="yt-label" style="margin-bottom: 1rem; opacity: 0.5;">Products</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+              <li><a href="https://tech.yango.com" style="font-size: 0.8rem;">AI Agents</a></li>
+              <li><a href="https://tech.yango.com" style="font-size: 0.8rem;">AI Studio</a></li>
+              <li><a href="https://tech.yango.com" style="font-size: 0.8rem;">Route Q</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="yt-footer__bottom">
+        <span class="yt-label" style="opacity: 0.5;">&copy; 2026 Yango Tech</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // === FADE IN OBSERVER ===
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('yt-visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.yt-fade-in').forEach(el => observer.observe(el));
+
+    // === CHART DEFAULTS ===
+    Chart.defaults.font.family = '"Yango Group Text", Helvetica, Arial, sans-serif';
+    Chart.defaults.font.size = 11;
+    Chart.defaults.color = '#7A7A7A';
+
+    const tooltipStyle = {
+      backgroundColor: 'rgba(20, 20, 20, 0.95)',
+      titleFont: { size: 12, family: '"Yango Group Text"' },
+      bodyFont: { size: 11, family: '"Yango Group Text"' },
+      padding: 12,
+      cornerRadius: 12,
+      displayColors: true,
+    };
+
+    // === RADAR CHART ===
+    new Chart(document.getElementById('radarChart').getContext('2d'), {
+      type: 'radar',
+      data: {
+        labels: ['Data\nInfrastructure', 'Governance\n& Ethics', 'Strategic\nAlignment', 'Employee\nAI Literacy', 'Workflow\nIntegration'],
+        datasets: [{
+          label: 'Organizational Maturity',
+          data: [85, 70, 90, 45, 50],
+          backgroundColor: 'rgba(20, 20, 20, 0.08)',
+          borderColor: '#141414',
+          pointBackgroundColor: '#141414',
+          borderWidth: 2,
+          pointRadius: 4,
+        }, {
+          label: 'Individual Readiness',
+          data: [40, 60, 50, 80, 75],
+          backgroundColor: 'rgba(255, 26, 26, 0.08)',
+          borderColor: '#FF1A1A',
+          pointBackgroundColor: '#FF1A1A',
+          borderWidth: 2,
+          pointRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            angleLines: { color: 'rgba(0,0,0,0.06)' },
+            grid: { color: 'rgba(0,0,0,0.06)' },
+            pointLabels: { font: { size: 10 } },
+            ticks: { backdropColor: 'transparent', stepSize: 20 },
+            suggestedMin: 0,
+            suggestedMax: 100,
+          }
+        },
+        plugins: {
+          tooltip: tooltipStyle,
+          legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 11 } } }
+        }
+      }
+    });
+
+    // === DOUGHNUT CHART ===
+    new Chart(document.getElementById('doughnutChart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Skeptics (No Usage)', 'Explorers (Basic Prompting)', 'Integrators (Daily Usage)', 'Innovators (Agent Builders)'],
+        datasets: [{
+          data: [15, 50, 25, 10],
+          backgroundColor: ['#C4C4C4', '#7A7A7A', '#323232', '#FF1A1A'],
+          borderWidth: 0,
+          hoverOffset: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: {
+          tooltip: tooltipStyle,
+          legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 10 } } }
+        }
+      }
+    });
+
+    // === LINE CHART (ROI) ===
+    new Chart(document.getElementById('lineChart').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: ['Stage 1:\nAwareness', 'Stage 2:\nExploration', 'Stage 3:\nTransition', 'Stage 4:\nIntegration', 'Stage 5:\nTransformation'],
+        datasets: [{
+          label: 'Cumulative ROI ($M)',
+          data: [-0.5, -0.2, 0.5, 3.2, 8.5],
+          borderColor: '#141414',
+          backgroundColor: 'rgba(20, 20, 20, 0.04)',
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointBackgroundColor: '#141414',
+          fill: true,
+          tension: 0.4,
+        }, {
+          label: 'Investment Costs ($M)',
+          data: [0.5, 1.2, 1.8, 2.1, 2.5],
+          borderColor: '#FF1A1A',
+          borderDash: [6, 4],
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#FF1A1A',
+          tension: 0.1,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            grid: { color: 'rgba(0,0,0,0.04)' },
+            title: { display: true, text: 'Value ($M)', font: { size: 11 } },
+          },
+          x: { grid: { display: false } }
+        },
+        plugins: {
+          tooltip: tooltipStyle,
+          legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 11 } } }
+        }
+      }
+    });
+
+    // === BAR CHART ===
+    new Chart(document.getElementById('barChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Governance\nSetup', 'Infrastructure\n& Cloud', 'Basic\nTraining', 'Custom Tool\nDevelopment', 'Agent\nAutomation'],
+        datasets: [{
+          label: 'Resource Allocation %',
+          data: [25, 20, 30, 15, 10],
+          backgroundColor: '#141414',
+          hoverBackgroundColor: '#FF1A1A',
+          borderRadius: 8,
+          barPercentage: 0.6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: 'rgba(0,0,0,0.04)' },
+            ticks: { callback: v => v + '%' },
+          },
+          x: { grid: { display: false } }
+        },
+        plugins: {
+          tooltip: tooltipStyle,
+          legend: { display: false }
+        }
+      }
+    });
+
+    // === SCATTER CHART ===
+    new Chart(document.getElementById('scatterChart').getContext('2d'), {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'Departments',
+          data: [
+            { x: 15, y: 5, r: 'HR' },
+            { x: 25, y: 12, r: 'Legal' },
+            { x: 45, y: 28, r: 'Operations' },
+            { x: 65, y: 55, r: 'Marketing' },
+            { x: 85, y: 90, r: 'R&D' },
+            { x: 95, y: 120, r: 'Software Dev' },
+            { x: 35, y: 18, r: 'Finance' },
+            { x: 55, y: 42, r: 'Sales' },
+          ],
+          backgroundColor: function(context) {
+            const val = context.raw ? context.raw.x : 0;
+            if (val > 80) return '#FF1A1A';
+            if (val > 50) return 'rgba(245,245,245,0.8)';
+            return 'rgba(245,245,245,0.35)';
+          },
+          pointRadius: function(context) {
+            const val = context.raw ? context.raw.y : 0;
+            return 4 + (val / 15);
+          },
+          borderColor: 'rgba(255,255,255,0.2)',
+          borderWidth: 1,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            title: { display: true, text: 'Adoption Rate (%)', color: 'rgba(245,245,245,0.5)', font: { size: 10 } },
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: { color: 'rgba(245,245,245,0.4)' },
+          },
+          y: {
+            title: { display: true, text: 'Efficiency Gain (%)', color: 'rgba(245,245,245,0.5)', font: { size: 10 } },
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: { color: 'rgba(245,245,245,0.4)' },
+          }
+        },
+        plugins: {
+          tooltip: {
+            ...tooltipStyle,
+            callbacks: {
+              label: function(context) {
+                const d = context.raw;
+                return d.r + ': ' + d.x + '% adoption, ' + d.y + '% gain';
+              }
+            }
+          },
+          legend: { display: false }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

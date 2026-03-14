@@ -411,6 +411,12 @@ def admin_participants(event_id: str, db: Session = Depends(get_db)):
     return result
 
 
+# ─── Framework Page ─────────────────────────────────────────────────────
+@app.get("/framework", response_class=HTMLResponse)
+def framework_page(request: Request):
+    return templates.TemplateResponse("framework.html", {"request": request})
+
+
 # ─── Root redirect ───────────────────────────────────────────────────────────
 @app.get("/")
 def root():
