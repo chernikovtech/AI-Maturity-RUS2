@@ -252,6 +252,42 @@
     .chart-card--wide { background: white; border-radius: var(--radius-card); padding: 2.5rem; }
     .chart-wrap--wide { position: relative; width: 100%; height: 380px; margin-top: 1.5rem; }
 
+    /* MINI STAGE SWITCHER (under each chart) */
+    .mini-stage-switcher {
+      display: flex; justify-content: center; gap: 0.4rem;
+      margin-top: 1.25rem; padding-top: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .chart-card--dark .mini-stage-switcher { border-top-color: rgba(255,255,255,0.08); }
+    .chart-card--wide .mini-stage-switcher { border-top-color: rgba(0,0,0,0.06); }
+    .mini-stage-btn {
+      display: flex; align-items: center; gap: 0.35rem;
+      padding: 0.3rem 0.65rem; border-radius: var(--radius-pill);
+      border: 1px solid var(--border-color); background: transparent;
+      font-family: var(--font-body); font-size: 0.65rem; font-weight: 500;
+      letter-spacing: var(--letter-spacing-ui); text-transform: uppercase;
+      color: var(--text-secondary); cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mini-stage-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
+    .mini-stage-btn--active {
+      background: var(--text-primary); border-color: var(--text-primary); color: white;
+    }
+    .mini-stage-btn--active:hover { background: var(--text-primary); color: white; }
+    .chart-card--dark .mini-stage-btn {
+      border-color: rgba(255,255,255,0.15); color: rgba(245,245,245,0.45);
+    }
+    .chart-card--dark .mini-stage-btn:hover {
+      border-color: rgba(255,255,255,0.4); color: rgba(245,245,245,0.8);
+    }
+    .chart-card--dark .mini-stage-btn--active {
+      background: var(--primary-color); border-color: var(--primary-color); color: white;
+    }
+    @media (max-width: 600px) {
+      .mini-stage-btn span { display: none; }
+      .mini-stage-btn { padding: 0.3rem 0.5rem; }
+    }
+
     /* REFERENCES */
     .ref-list { list-style: none; }
     .ref-item { padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
@@ -440,11 +476,13 @@
           <p class="yt-label" style="margin-bottom: 0.5rem;">Capability Gap Analysis</p>
           <p style="color: var(--text-secondary); font-size: 0.8rem;">Organizational infrastructure vs. workforce readiness across key pillars.</p>
           <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+          <div class="mini-stage-switcher" data-switcher></div>
         </div>
         <div class="chart-card">
           <p class="yt-label" style="margin-bottom: 0.5rem;">Workforce Skill Distribution</p>
           <p style="color: var(--text-secondary); font-size: 0.8rem;" id="doughnut-subtitle">Proficiency breakdown at the Transition stage.</p>
           <div class="chart-wrap"><canvas id="doughnutChart"></canvas></div>
+          <div class="mini-stage-switcher" data-switcher></div>
         </div>
       </div>
 
@@ -455,6 +493,7 @@
           Early stages incur costs for infrastructure and training before breaking even during Transition, followed by exponential returns in Integration and Transformation.
         </p>
         <div class="chart-wrap--wide"><canvas id="lineChart"></canvas></div>
+        <div class="mini-stage-switcher" data-switcher></div>
       </div>
 
       <!-- Row 3: Pie (Resource Allocation) + Scatter -->
@@ -463,11 +502,13 @@
           <p class="yt-label" style="margin-bottom: 0.5rem;">Resource Allocation</p>
           <p style="color: var(--text-secondary); font-size: 0.8rem;" id="pie-subtitle">How strategic investment is distributed at the Transition stage.</p>
           <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
+          <div class="mini-stage-switcher" data-switcher></div>
         </div>
         <div class="chart-card chart-card--dark">
           <p class="yt-label" style="margin-bottom: 0.5rem; color: var(--primary-color);">Departmental Adoption vs. Efficiency</p>
           <p style="color: rgba(245,245,245,0.5); font-size: 0.8rem;" id="scatter-subtitle">Department-level adoption and efficiency gains at the Transition stage.</p>
           <div class="chart-wrap"><canvas id="scatterChart"></canvas></div>
+          <div class="mini-stage-switcher" data-switcher></div>
         </div>
       </div>
     </div>
@@ -946,6 +987,28 @@
       document.getElementById('scatter-subtitle').textContent =
         'Department-level adoption and efficiency gains at the ' + stageName + ' stage.';
     }
+
+    // Populate all mini stage switchers
+    var SHORT_NAMES = ['Aware', 'Explore', 'Transit', 'Integr', 'Transf'];
+    document.querySelectorAll('[data-switcher]').forEach(function(container) {
+      STAGE_NAMES.forEach(function(name, i) {
+        var btn = document.createElement('button');
+        btn.className = 'mini-stage-btn';
+        btn.setAttribute('data-stage', i);
+        btn.innerHTML = '<strong>' + (i + 1) + '</strong><span>' + SHORT_NAMES[i] + '</span>';
+        btn.onclick = function() { selectStage(i); };
+        container.appendChild(btn);
+      });
+    });
+
+    // Sync all mini switchers when stage changes
+    var _origSelectStage = selectStage;
+    selectStage = function(idx) {
+      _origSelectStage(idx);
+      document.querySelectorAll('.mini-stage-btn').forEach(function(btn) {
+        btn.classList.toggle('mini-stage-btn--active', parseInt(btn.getAttribute('data-stage')) === idx);
+      });
+    };
 
     // Initialize detail panel
     selectStage(currentStage);
