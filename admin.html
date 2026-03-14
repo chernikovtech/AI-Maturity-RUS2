@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — AI Literacy Assessment</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<!-- ═══ Passphrase Gate ════════════════════════════════════════════════ -->
+<div id="gate" class="passphrase-gate">
+  <div class="passphrase-card">
+    <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+         alt="Yango Tech" style="height:24px; filter:invert(1); margin:0 auto;">
+    <p class="label" style="color:rgba(255,255,255,0.4); margin-top:1rem;">Admin Access</p>
+    <input class="input" type="password" id="passphrase-input" placeholder="Enter passphrase"
+           onkeydown="if(event.key==='Enter')authenticate()">
+    <button class="btn btn--primary btn--full" onclick="authenticate()">Enter</button>
+    <p id="auth-error" style="color:var(--primary); margin-top:0.75rem; font-size:0.82rem; display:none;">Wrong passphrase</p>
+  </div>
+</div>
+
+<!-- ═══ Admin Panel ═══════════════════════════════════════════════════ -->
+<div id="admin-panel" style="display:none;">
+  <div class="app-header" style="padding:1rem 1.87rem;">
+    <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+         alt="Yango Tech" class="app-header__logo">
+    <span class="label" style="color:rgba(255,255,255,0.5);">Admin Panel</span>
+  </div>
+
+  <div class="container--wide admin-wrapper">
+
+    <!-- Create Event -->
+    <h2 class="headline h3" style="margin-bottom:0.5rem;">Events</h2>
+    <p class="text-secondary">Create and manage assessment events.</p>
+
+    <div class="create-form" id="create-form">
+      <h3 style="font-weight:600; margin-bottom:1rem;">Create New Event</h3>
+      <div class="create-form__grid">
+        <div class="form-group">
+          <label class="label">Event Name</label>
+          <input class="input" id="ev-name" placeholder="AI Won't Help You">
+        </div>
+        <div class="form-group">
+          <label class="label">URL Slug</label>
+          <input class="input" id="ev-slug" placeholder="ai-wont-help-you">
+        </div>
+        <div class="form-group">
+          <label class="label">Location</label>
+          <input class="input" id="ev-location" placeholder="Dubai">
+        </div>
+        <div class="form-group">
+          <label class="label">Date</label>
+          <input class="input" id="ev-date" type="date">
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:1rem;">
+        <label class="label">Description (optional)</label>
+        <input class="input" id="ev-desc" placeholder="Round-table discussion on AI literacy">
+      </div>
+      <button class="btn btn--primary" style="margin-top:1rem;" onclick="createEvent()">Create Event</button>
+    </div>
+
+    <!-- Event List -->
+    <div class="event-list" id="event-list">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Participant Detail (hidden by default) -->
+    <div id="participant-detail" style="display:none; margin-top:2rem;">
+      <h3 class="headline h3" id="detail-title" style="margin-bottom:1rem;"></h3>
+      <div class="card" style="overflow-x:auto;">
+        <table class="participants-table" id="participants-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Country</th>
+              <th>Industry</th>
+              <th>Score</th>
+              <th>Level</th>
+              <th>Submitted</th>
+            </tr>
+          </thead>
+          <tbody id="participants-tbody"></tbody>
+        </table>
+        <p id="no-participants" class="text-secondary text-center" style="padding:2rem; display:none;">
+          No participants with consent to store data yet.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let authed = false;
+const BASE = window.location.origin;
+
+async function authenticate() {
+  const passphrase = document.getElementById('passphrase-input').value;
+  try {
+    const resp = await fetch('/api/admin/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passphrase }),
+    });
+    if (resp.ok) {
+      authed = true;
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('admin-panel').style.display = 'block';
+      loadEvents();
+    } else {
+      document.getElementById('auth-error').style.display = 'block';
+    }
+  } catch (e) {
+    alert('Connection error');
+  }
+}
+
+async function loadEvents() {
+  const resp = await fetch('/api/admin/events');
+  const events = await resp.json();
+  const list = document.getElementById('event-list');
+
+  if (events.length === 0) {
+    list.innerHTML = '<p class="text-secondary" style="padding:2rem 0;">No events yet. Create your first one above.</p>';
+    return;
+  }
+
+  list.innerHTML = events.map(e => `
+    <div class="event-item">
+      <div class="event-item__info">
+        <div class="event-item__name">${e.name}</div>
+        <div class="event-item__meta">
+          /${e.slug} · ${e.location || 'No location'} · ${e.participant_count} participants
+          <span class="badge badge--${e.status}">${e.status}</span>
+        </div>
+      </div>
+      <div class="event-item__actions">
+        <button class="btn btn--small btn--dark" onclick="window.open('/dashboard/${e.slug}','_blank')">
+          Dashboard
+        </button>
+        <button class="btn btn--small btn--outline" onclick="downloadQR('${e.id}', '${e.slug}')">
+          QR Code
+        </button>
+        <button class="btn btn--small btn--outline" onclick="copyLink('${e.slug}')">
+          Copy Link
+        </button>
+        <button class="btn btn--small btn--ghost" onclick="showParticipants('${e.id}', '${e.name}')">
+          Participants
+        </button>
+        ${e.status === 'active'
+          ? `<button class="btn btn--small btn--ghost" onclick="toggleEvent('${e.id}','closed')" style="color:var(--primary);">Close</button>`
+          : `<button class="btn btn--small btn--ghost" onclick="toggleEvent('${e.id}','active')">Reopen</button>`}
+      </div>
+    </div>
+  `).join('');
+}
+
+async function createEvent() {
+  const name = document.getElementById('ev-name').value.trim();
+  const slug = document.getElementById('ev-slug').value.trim().toLowerCase().replace(/\s+/g, '-');
+  if (!name || !slug) { alert('Name and slug are required.'); return; }
+
+  const resp = await fetch('/api/admin/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name,
+      slug,
+      location: document.getElementById('ev-location').value.trim(),
+      event_date: document.getElementById('ev-date').value || null,
+      description: document.getElementById('ev-desc').value.trim(),
+    }),
+  });
+
+  if (resp.ok) {
+    // Clear form
+    ['ev-name','ev-slug','ev-location','ev-date','ev-desc'].forEach(id =>
+      document.getElementById(id).value = '');
+    loadEvents();
+  } else {
+    const err = await resp.json();
+    alert(err.detail || 'Error creating event');
+  }
+}
+
+function downloadQR(eventId, slug) {
+  window.open(`/api/admin/events/${eventId}/qr`, '_blank');
+}
+
+function copyLink(slug) {
+  const url = `${BASE}/event/${slug}`;
+  navigator.clipboard.writeText(url).then(() => {
+    alert(`Link copied: ${url}`);
+  }).catch(() => {
+    prompt('Copy this link:', url);
+  });
+}
+
+async function toggleEvent(eventId, status) {
+  await fetch(`/api/admin/events/${eventId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status }),
+  });
+  loadEvents();
+}
+
+async function showParticipants(eventId, eventName) {
+  document.getElementById('detail-title').textContent = `Participants — ${eventName}`;
+  document.getElementById('participant-detail').style.display = 'block';
+
+  const resp = await fetch(`/api/admin/events/${eventId}/participants`);
+  const participants = await resp.json();
+
+  const tbody = document.getElementById('participants-tbody');
+  const noP = document.getElementById('no-participants');
+
+  if (participants.length === 0) {
+    tbody.innerHTML = '';
+    noP.style.display = 'block';
+    return;
+  }
+  noP.style.display = 'none';
+
+  tbody.innerHTML = participants.map(p => `
+    <tr>
+      <td>${p.name || '—'}</td>
+      <td>${p.email || '—'}</td>
+      <td>${p.phone || '—'}</td>
+      <td>${p.country || '—'}</td>
+      <td>${p.industry || '—'}</td>
+      <td style="font-weight:600;">${p.total_score != null ? Math.round(p.total_score) : '—'}</td>
+      <td><span class="badge" style="background:${
+        {Explorer:'#7A7A7A',Learner:'#FF8C00',Practitioner:'#FF1A1A',Architect:'#141414'}[p.level] || '#7A7A7A'
+      }; color:white;">${p.level || '—'}</span></td>
+      <td class="text-secondary">${p.submitted_at ? new Date(p.submitted_at).toLocaleString() : '—'}</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('participant-detail').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Auto-generate slug from name
+document.getElementById('ev-name').addEventListener('input', function() {
+  const slugField = document.getElementById('ev-slug');
+  if (!slugField.dataset.manual) {
+    slugField.value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+});
+document.getElementById('ev-slug').addEventListener('input', function() {
+  this.dataset.manual = '1';
+});
+</script>
+</body>
+</html>

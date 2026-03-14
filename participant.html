@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AI Literacy Assessment — {{ event.name }}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* Inline overrides for mobile-first participant experience */
+    body { background: var(--body-bg); }
+    .option { -webkit-tap-highlight-color: transparent; }
+  </style>
+</head>
+<body>
+<div class="app-wrapper" id="app">
+
+  <!-- ═══ STEP 0: Welcome ═══════════════════════════════════════════════ -->
+  <div class="step active" id="step-welcome">
+    <div class="welcome">
+      <div>
+        <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+             alt="Yango Tech" style="height:24px; filter:invert(1); margin:0 auto 2rem;">
+        <h1 class="headline h1 welcome__title">AI Literacy<br>Check</h1>
+        <p class="welcome__subtitle">
+          12 quick questions to measure your AI fluency. Takes about 3 minutes.
+          Your name won't appear on screen — only aggregated results are shown.
+        </p>
+        <button class="btn btn--primary" onclick="showStep('step-register')">
+          Let's Go
+        </button>
+        <div class="welcome__meta">{{ event.name }}{% if event.location %} · {{ event.location }}{% endif %}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 1: Register ══════════════════════════════════════════════ -->
+  <div class="step" id="step-register">
+    <div class="app-header">
+      <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+           alt="Yango Tech" class="app-header__logo">
+      <span class="label text-secondary">Step 1 of 3</span>
+    </div>
+    <div class="container" style="flex:1; display:flex; flex-direction:column;">
+      <div class="step__content">
+        <h2 class="headline h3" style="margin-bottom:0.5rem;">About You</h2>
+        <p class="text-secondary" style="margin-bottom:1.5rem;">All fields are optional except country and industry.</p>
+
+        <div class="form-group">
+          <label class="label">Name</label>
+          <input class="input" type="text" id="reg-name" placeholder="Optional">
+        </div>
+        <div class="form-group">
+          <label class="label">Email</label>
+          <input class="input" type="email" id="reg-email" placeholder="Optional">
+        </div>
+        <div class="form-group">
+          <label class="label">Phone</label>
+          <input class="input" type="tel" id="reg-phone" placeholder="Optional">
+        </div>
+        <div class="form-group">
+          <label class="label">Country</label>
+          <select class="input" id="reg-country" required>
+            <option value="" disabled selected>Select your country</option>
+            {% for c in countries %}
+            <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="label">Industry</label>
+          <select class="input" id="reg-industry" required>
+            <option value="" disabled selected>Select your industry</option>
+            {% for ind in industries %}
+            <option value="{{ ind }}">{{ ind }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="consent-row">
+          <input type="checkbox" id="reg-consent" checked>
+          <span>
+            I'm ok with you saving my responses for aggregate research.
+            You can delete your data anytime after the test.
+          </span>
+        </div>
+      </div>
+      <div class="step__footer">
+        <button class="btn btn--primary btn--full" onclick="startQuiz()" id="btn-start-quiz">
+          Start the Test
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2: Quiz ══════════════════════════════════════════════════ -->
+  <div class="step" id="step-quiz">
+    <div class="app-header">
+      <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+           alt="Yango Tech" class="app-header__logo">
+      <span class="label text-secondary" id="quiz-step-label">1 / 12</span>
+    </div>
+    <div class="container" style="flex:1; display:flex; flex-direction:column;">
+      <div class="step__content">
+        <div class="progress-bar">
+          <div class="progress-bar__fill" id="quiz-progress" style="width:8.3%"></div>
+        </div>
+        <div id="quiz-container">
+          <!-- Dynamically rendered -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: Submitting ════════════════════════════════════════════ -->
+  <div class="step" id="step-submitting">
+    <div class="welcome">
+      <div>
+        <div style="font-size:2rem; margin-bottom:1rem;">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="animation: spin 1s linear infinite;">
+            <circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+            <path d="M44 24c0-11.046-8.954-20-20-20" stroke="#FF1A1A" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+        <h2 class="headline h3">Computing your results...</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 4: Results ═══════════════════════════════════════════════ -->
+  <div class="step" id="step-results">
+    <div class="results-hero" id="results-hero">
+      <span class="label" style="opacity:0.5;">Your AI Literacy Score</span>
+      <div class="results-hero__score" id="results-score">—</div>
+      <span class="label" style="opacity:0.5;">out of 100</span>
+      <div class="results-hero__level" id="results-level">—</div>
+    </div>
+    <div class="results-body container">
+      <p id="results-desc" style="margin-bottom:2rem; line-height:1.6;"></p>
+
+      <h3 class="headline" style="font-size:1rem; margin-bottom:1rem;">YOUR DIMENSIONS</h3>
+      <div id="results-dims"></div>
+
+      <div class="benchmark-card" id="benchmark-card" style="display:none;">
+        <h3 class="headline" style="font-size:1rem; margin-bottom:1rem;">HOW YOU COMPARE</h3>
+        <div id="benchmark-rows"></div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn btn--primary btn--full" id="btn-download-pdf" onclick="downloadPDF()">
+          Download Results PDF
+        </button>
+        <button class="btn btn--outline btn--full" onclick="deleteMyData()">
+          Delete My Data
+        </button>
+      </div>
+
+      <p class="text-secondary text-center" style="margin-top:1.5rem; font-size:0.75rem;">
+        Powered by Yango Tech · Framework: Nate Jones / PAICE
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Config ──────────────────────────────────────────────────────────────
+const QUESTIONS = {{ questions_json|safe }};
+const SLUG = "{{ event.slug }}";
+let currentQ = 0;
+let answers = {};
+let participantId = null;
+
+// ─── Navigation ──────────────────────────────────────────────────────────
+function showStep(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ─── Quiz Logic ──────────────────────────────────────────────────────────
+function startQuiz() {
+  const country = document.getElementById('reg-country').value;
+  const industry = document.getElementById('reg-industry').value;
+  if (!country || !industry) {
+    alert('Please select your country and industry.');
+    return;
+  }
+  currentQ = 0;
+  answers = {};
+  renderQuestion();
+  showStep('step-quiz');
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const displayOrder = q.display_order;
+  const total = QUESTIONS.length;
+
+  document.getElementById('quiz-step-label').textContent = `${currentQ + 1} / ${total}`;
+  document.getElementById('quiz-progress').style.width = `${((currentQ + 1) / total) * 100}%`;
+
+  let html = `<div class="question-card">`;
+  html += `<p class="question-text">${q.text}</p>`;
+
+  displayOrder.forEach(idx => {
+    const opt = q.options[idx];
+    const selected = answers[q.key] === opt.score ? 'selected' : '';
+    html += `<button class="option ${selected}" onclick="selectOption('${q.key}', ${opt.score}, this)">
+      ${opt.text}
+    </button>`;
+  });
+
+  html += `</div>`;
+  document.getElementById('quiz-container').innerHTML = html;
+}
+
+function selectOption(key, score, el) {
+  answers[key] = score;
+
+  // Visual feedback
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+
+  // Auto-advance after brief delay
+  setTimeout(() => {
+    if (currentQ < QUESTIONS.length - 1) {
+      currentQ++;
+      renderQuestion();
+    } else {
+      submitAssessment();
+    }
+  }, 300);
+}
+
+// ─── Submit ──────────────────────────────────────────────────────────────
+async function submitAssessment() {
+  showStep('step-submitting');
+
+  const body = {
+    name: document.getElementById('reg-name').value,
+    email: document.getElementById('reg-email').value,
+    phone: document.getElementById('reg-phone').value,
+    country: document.getElementById('reg-country').value,
+    industry: document.getElementById('reg-industry').value,
+    consent_store: document.getElementById('reg-consent').checked,
+    answers: answers,
+  };
+
+  try {
+    const resp = await fetch(`/api/event/${SLUG}/submit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await resp.json();
+
+    if (!resp.ok) throw new Error(data.detail || 'Submit failed');
+
+    participantId = data.participant_id;
+    renderResults(data);
+    showStep('step-results');
+  } catch (err) {
+    alert('Something went wrong: ' + err.message);
+    showStep('step-quiz');
+  }
+}
+
+// ─── Results ─────────────────────────────────────────────────────────────
+function renderResults(data) {
+  document.getElementById('results-score').textContent = Math.round(data.total_score);
+
+  const levelEl = document.getElementById('results-level');
+  levelEl.textContent = data.level;
+  const levelColors = { Explorer: '#7A7A7A', Learner: '#FF8C00', Practitioner: '#FF1A1A', Architect: '#141414' };
+  levelEl.style.background = levelColors[data.level] || '#7A7A7A';
+  levelEl.style.color = 'white';
+
+  document.getElementById('results-desc').textContent = data.level_info.description;
+
+  // Dimension bars
+  const dims = data.dimension_scores;
+  const dimLabels = {
+    context_assembly: 'Context Assembly',
+    quality_judgment: 'Quality Judgment',
+    task_decomposition: 'Task Decomposition',
+    iterative_refinement: 'Iterative Refinement',
+    workflow_integration: 'Workflow Integration',
+    frontier_recognition: 'Frontier Recognition',
+  };
+
+  let dimsHtml = '';
+  for (const [key, label] of Object.entries(dimLabels)) {
+    const val = Math.round(dims[key] || 0);
+    dimsHtml += `
+      <div class="dim-bar">
+        <div class="dim-bar__header">
+          <span class="dim-bar__label">${label}</span>
+          <span class="dim-bar__value">${val}%</span>
+        </div>
+        <div class="dim-bar__track">
+          <div class="dim-bar__fill" style="width:${val}%"></div>
+        </div>
+      </div>`;
+  }
+  document.getElementById('results-dims').innerHTML = dimsHtml;
+
+  // Benchmarks
+  const benchCard = document.getElementById('benchmark-card');
+  let benchHtml = '';
+
+  benchHtml += `
+    <div class="benchmark-row">
+      <span style="font-weight:500;">You</span>
+      <span style="font-weight:600; color:var(--primary);">${Math.round(data.total_score)}%</span>
+    </div>`;
+
+  if (data.regional_benchmark && data.regional_benchmark.score) {
+    benchHtml += `
+      <div class="benchmark-row">
+        <span class="text-secondary">${data.regional_benchmark.region} average</span>
+        <span>${data.regional_benchmark.score}%</span>
+      </div>`;
+  }
+
+  benchHtml += `
+    <div class="benchmark-row">
+      <span class="text-secondary">Global corporate average</span>
+      <span>${data.global_benchmark.score}%</span>
+    </div>`;
+
+  document.getElementById('benchmark-rows').innerHTML = benchHtml;
+  benchCard.style.display = 'block';
+}
+
+function downloadPDF() {
+  if (participantId) {
+    window.open(`/api/participant/${participantId}/pdf`, '_blank');
+  }
+}
+
+async function deleteMyData() {
+  if (!participantId) return;
+  if (!confirm('This will permanently delete your personal information. Your anonymous score will remain in aggregate statistics. Continue?')) return;
+
+  try {
+    await fetch(`/api/participant/${participantId}`, { method: 'DELETE' });
+    alert('Your personal data has been deleted.');
+    document.querySelector('.results-actions').innerHTML =
+      '<p class="text-secondary text-center">Your data has been deleted.</p>';
+  } catch (err) {
+    alert('Error deleting data. Please try again.');
+  }
+}
+</script>
+</body>
+</html>

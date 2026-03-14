@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — {{ event.name }}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    body { background: var(--body-bg); overflow-x: hidden; }
+    .dash-empty {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0.5;
+    }
+    .dash-empty__icon { font-size: 3rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ Header ══════════════════════════════════════════════════════════ -->
+<div class="dash-header">
+  <div class="container--wide dash-header__inner">
+    <div>
+      <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
+           alt="Yango Tech" style="height:24px; filter:invert(1); margin-bottom:0.75rem;">
+      <div class="dash-header__event">{{ event.name }}</div>
+      {% if event.location %}
+      <span class="label" style="opacity:0.4; margin-top:0.5rem; display:inline-block;">{{ event.location }}{% if event.event_date %} · {{ event.event_date }}{% endif %}</span>
+      {% endif %}
+    </div>
+    <div class="live-pulse" style="color:var(--text-on-dark);">
+      <span class="live-pulse__dot"></span>
+      <span class="label">Live</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Stats Row ═══════════════════════════════════════════════════════ -->
+<div class="container--wide">
+  <div class="dash-stats">
+    <div class="stat-card">
+      <div class="stat-card__value" id="stat-count">0</div>
+      <div class="stat-card__label label text-secondary">Participants</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__value" id="stat-avg">—</div>
+      <div class="stat-card__label label text-secondary">Average Score</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__value" id="stat-top-level">—</div>
+      <div class="stat-card__label label text-secondary">Most Common Level</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Empty state ═════════════════════════════════════════════════════ -->
+<div class="container--wide" id="empty-state">
+  <div class="dash-empty">
+    <div class="dash-empty__icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#7A7A7A" stroke-width="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <path d="M7 7h.01M7 12h10M7 17h6"/>
+      </svg>
+    </div>
+    <p style="font-size:1.1rem; font-weight:500;">Waiting for participants...</p>
+    <p class="text-secondary" style="margin-top:0.5rem;">Results will appear here as people complete the assessment.</p>
+  </div>
+</div>
+
+<!-- ═══ Charts Area (hidden until data) ════════════════════════════════ -->
+<div class="container--wide" id="charts-area" style="display:none;">
+
+  <!-- Level Distribution -->
+  <div class="dash-section">
+    <div class="dash-section__title">Literacy Level Distribution</div>
+    <div class="level-dist" id="level-dist"></div>
+  </div>
+
+  <!-- Dimension Averages -->
+  <div class="dash-section">
+    <div class="dash-section__title">Dimension Averages</div>
+    <div class="dash-dims" id="dim-avgs"></div>
+  </div>
+
+  <!-- Industry & Country breakdown -->
+  <div class="dash-section" style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+    <div>
+      <div class="dash-section__title">By Country</div>
+      <div class="card" id="country-breakdown" style="padding:1.5rem;"></div>
+    </div>
+    <div>
+      <div class="dash-section__title">By Industry</div>
+      <div class="card" id="industry-breakdown" style="padding:1.5rem;"></div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:2rem 0; text-align:center;">
+  <span class="label text-secondary" style="opacity:0.3;">Powered by Yango Tech · AI Literacy Assessment</span>
+</div>
+
+<script>
+const SLUG = "{{ event.slug }}";
+const LEVELS = {{ levels_json|safe }};
+const DIMENSIONS = {{ dimensions_json|safe }};
+const LEVEL_COLORS = { Explorer: '#7A7A7A', Learner: '#FF8C00', Practitioner: '#FF1A1A', Architect: '#141414' };
+
+function updateDashboard(stats) {
+  // Stats
+  document.getElementById('stat-count').textContent = stats.count;
+  document.getElementById('stat-avg').textContent = stats.count > 0 ? Math.round(stats.avg_score) : '—';
+
+  // Most common level
+  if (stats.count > 0 && Object.keys(stats.levels).length > 0) {
+    const topLevel = Object.entries(stats.levels).sort((a,b) => b[1] - a[1])[0][0];
+    document.getElementById('stat-top-level').textContent = topLevel;
+  }
+
+  // Show/hide areas
+  if (stats.count === 0) {
+    document.getElementById('empty-state').style.display = 'block';
+    document.getElementById('charts-area').style.display = 'none';
+    return;
+  }
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('charts-area').style.display = 'block';
+
+  // Level distribution
+  let levelHtml = '';
+  const levelOrder = ['Explorer', 'Learner', 'Practitioner', 'Architect'];
+  levelOrder.forEach(lvl => {
+    const count = stats.levels[lvl] || 0;
+    const pct = stats.count > 0 ? Math.round((count / stats.count) * 100) : 0;
+    levelHtml += `
+      <div class="level-bar">
+        <div class="level-bar__count">${count}</div>
+        <div class="level-bar__label label text-secondary">${lvl}</div>
+        <div style="margin-top:0.5rem; font-size:0.78rem; color:var(--text-secondary);">${pct}%</div>
+        <div class="level-bar__indicator" style="background:${LEVEL_COLORS[lvl]}"></div>
+      </div>`;
+  });
+  document.getElementById('level-dist').innerHTML = levelHtml;
+
+  // Dimension averages
+  let dimHtml = '';
+  for (const [key, dim] of Object.entries(DIMENSIONS)) {
+    const val = Math.round(stats.dimensions[key] || 0);
+    dimHtml += `
+      <div class="card" style="padding:1.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.5rem;">
+          <span style="font-weight:500; font-size:0.82rem;">${dim.label}</span>
+          <span style="font-weight:600; color:var(--primary); font-size:0.9rem;">${val}%</span>
+        </div>
+        <div class="dim-bar__track">
+          <div class="dim-bar__fill" style="width:${val}%; transition:width 0.6s ease;"></div>
+        </div>
+      </div>`;
+  }
+  document.getElementById('dim-avgs').innerHTML = dimHtml;
+
+  // Country breakdown
+  let countryHtml = '';
+  const countries = Object.entries(stats.countries).sort((a,b) => b[1] - a[1]);
+  countries.forEach(([country, count]) => {
+    const pct = Math.round((count / stats.count) * 100);
+    countryHtml += `
+      <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--body-bg);">
+        <span>${country}</span>
+        <span class="text-secondary">${count} (${pct}%)</span>
+      </div>`;
+  });
+  document.getElementById('country-breakdown').innerHTML = countryHtml || '<span class="text-secondary">No data yet</span>';
+
+  // Industry breakdown
+  let industryHtml = '';
+  const industries = Object.entries(stats.industries).sort((a,b) => b[1] - a[1]);
+  industries.forEach(([ind, count]) => {
+    const pct = Math.round((count / stats.count) * 100);
+    industryHtml += `
+      <div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--body-bg);">
+        <span>${ind}</span>
+        <span class="text-secondary">${count} (${pct}%)</span>
+      </div>`;
+  });
+  document.getElementById('industry-breakdown').innerHTML = industryHtml || '<span class="text-secondary">No data yet</span>';
+}
+
+// ─── SSE Live Updates ────────────────────────────────────────────────────
+function connectSSE() {
+  const es = new EventSource(`/api/dashboard/${SLUG}/stream`);
+  es.onmessage = (event) => {
+    try {
+      const stats = JSON.parse(event.data);
+      updateDashboard(stats);
+    } catch(e) { console.error('SSE parse error', e); }
+  };
+  es.onerror = () => {
+    es.close();
+    setTimeout(connectSSE, 5000);
+  };
+}
+
+// Initial load
+const initialStats = {{ stats_json|safe }};
+updateDashboard(initialStats);
+connectSSE();
+</script>
+</body>
+</html>
