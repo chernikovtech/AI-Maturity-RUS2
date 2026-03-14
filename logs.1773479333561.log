@@ -1,0 +1,228 @@
+2026-03-14T09:07:21.898045177Z [inf]  Starting Container
+2026-03-14T09:07:23.041582565Z [err]      sys.exit(main())
+2026-03-14T09:07:23.041593049Z [err]               ^^^^^^
+2026-03-14T09:07:23.041598801Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1485, in __call__
+2026-03-14T09:07:23.041603364Z [err]      return self.main(*args, **kwargs)
+2026-03-14T09:07:23.041607855Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.041612885Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1406, in main
+2026-03-14T09:07:23.041618176Z [err]      rv = self.invoke(ctx)
+2026-03-14T09:07:23.041623446Z [err]           ^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.041628450Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1269, in invoke
+2026-03-14T09:07:23.041633654Z [err]      return ctx.invoke(self.callback, **ctx.params)
+2026-03-14T09:07:23.041635410Z [err]  Traceback (most recent call last):
+2026-03-14T09:07:23.041639818Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.041640519Z [err]    File "/opt/venv/bin/uvicorn", line 8, in <module>
+2026-03-14T09:07:23.041644012Z [err]  ^^
+2026-03-14T09:07:23.041647350Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 824, in invoke
+2026-03-14T09:07:23.042427419Z [err]    File "/root/.nix-profile/lib/python3.12/asyncio/runners.py", line 194, in run
+2026-03-14T09:07:23.042431578Z [err]      return runner.run(main)
+2026-03-14T09:07:23.042436142Z [err]             ^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.042438755Z [err]      return callback(*args, **kwargs)
+2026-03-14T09:07:23.042441815Z [err]    File "/root/.nix-profile/lib/python3.12/asyncio/runners.py", line 118, in run
+2026-03-14T09:07:23.042445014Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.042448227Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/main.py", line 410, in main
+2026-03-14T09:07:23.042451251Z [err]      run(
+2026-03-14T09:07:23.042454860Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/main.py", line 577, in run
+2026-03-14T09:07:23.042457670Z [err]      server.run()
+2026-03-14T09:07:23.042460600Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 65, in run
+2026-03-14T09:07:23.042463373Z [err]      return asyncio.run(self.serve(sockets=sockets))
+2026-03-14T09:07:23.042466383Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.042469213Z [err]  ^
+2026-03-14T09:07:23.043754299Z [err]      return self._loop.run_until_complete(task)
+2026-03-14T09:07:23.043761065Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.043765290Z [err]    File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+2026-03-14T09:07:23.043771051Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 69, in serve
+2026-03-14T09:07:23.043775222Z [err]      await self._serve(sockets)
+2026-03-14T09:07:23.043779085Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 76, in _serve
+2026-03-14T09:07:23.043783405Z [err]      config.load()
+2026-03-14T09:07:23.043788296Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/config.py", line 434, in load
+2026-03-14T09:07:23.043791893Z [err]      self.loaded_app = import_from_string(self.app)
+2026-03-14T09:07:23.043795816Z [err]                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.043799684Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+2026-03-14T09:07:23.043803719Z [err]      module = importlib.import_module(module_str)
+2026-03-14T09:07:23.045003534Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.045008837Z [err]    File "/root/.nix-profile/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-14T09:07:23.045013761Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-14T09:07:23.045017175Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.045020423Z [err]  ^^^^^^^^^^^^^^
+2026-03-14T09:07:23.045023672Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-14T09:07:23.045026512Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-14T09:07:23.045029649Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-14T09:07:23.045033223Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-14T09:07:23.045036994Z [err]    File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+2026-03-14T09:07:23.045040447Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-14T09:07:23.045044140Z [err]    File "/app/main.py", line 34, in <module>
+2026-03-14T09:07:23.045047480Z [err]      app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+2026-03-14T09:07:23.046206967Z [err]                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.046212343Z [err]    File "/opt/venv/lib/python3.12/site-packages/starlette/staticfiles.py", line 56, in __init__
+2026-03-14T09:07:23.046215632Z [err]      raise RuntimeError(f"Directory '{directory}' does not exist")
+2026-03-14T09:07:23.046219421Z [err]  RuntimeError: Directory '/app/static' does not exist
+2026-03-14T09:07:23.135173104Z [err]      return self.main(*args, **kwargs)
+2026-03-14T09:07:23.135181156Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.135186014Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1406, in main
+2026-03-14T09:07:23.135189636Z [err]  Traceback (most recent call last):
+2026-03-14T09:07:23.135192941Z [err]      rv = self.invoke(ctx)
+2026-03-14T09:07:23.135195074Z [err]    File "/opt/venv/bin/uvicorn", line 8, in <module>
+2026-03-14T09:07:23.135200525Z [err]      sys.exit(main())
+2026-03-14T09:07:23.135201148Z [err]           ^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.135206202Z [err]               ^^^^^^
+2026-03-14T09:07:23.135207736Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1269, in invoke
+2026-03-14T09:07:23.135211694Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1485, in __call__
+2026-03-14T09:07:23.135213658Z [err]      return ctx.invoke(self.callback, **ctx.params)
+2026-03-14T09:07:23.135217971Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.135222201Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 824, in invoke
+2026-03-14T09:07:23.135226292Z [err]      return callback(*args, **kwargs)
+2026-03-14T09:07:23.136407405Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.136415974Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/main.py", line 410, in main
+2026-03-14T09:07:23.136420474Z [err]      run(
+2026-03-14T09:07:23.136424299Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/main.py", line 577, in run
+2026-03-14T09:07:23.136428038Z [err]      server.run()
+2026-03-14T09:07:23.136431221Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 65, in run
+2026-03-14T09:07:23.136434600Z [err]      return asyncio.run(self.serve(sockets=sockets))
+2026-03-14T09:07:23.136440331Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.136444594Z [err]    File "/root/.nix-profile/lib/python3.12/asyncio/runners.py", line 194, in run
+2026-03-14T09:07:23.136448162Z [err]      return runner.run(main)
+2026-03-14T09:07:23.136452458Z [err]             ^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.136456190Z [err]    File "/root/.nix-profile/lib/python3.12/asyncio/runners.py", line 118, in run
+2026-03-14T09:07:23.136459457Z [err]      return self._loop.run_until_complete(task)
+2026-03-14T09:07:23.136463235Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.137539989Z [err]    File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+2026-03-14T09:07:23.137545215Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 69, in serve
+2026-03-14T09:07:23.137549252Z [err]      await self._serve(sockets)
+2026-03-14T09:07:23.137552500Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 76, in _serve
+2026-03-14T09:07:23.137555675Z [err]      config.load()
+2026-03-14T09:07:23.137559020Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/config.py", line 434, in load
+2026-03-14T09:07:23.137562001Z [err]      self.loaded_app = import_from_string(self.app)
+2026-03-14T09:07:23.137565530Z [err]                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.137569117Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+2026-03-14T09:07:23.137573729Z [err]      module = importlib.import_module(module_str)
+2026-03-14T09:07:23.137578855Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.137582533Z [err]    File "/root/.nix-profile/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-14T09:07:23.138715124Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-14T09:07:23.138719188Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.138722466Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-14T09:07:23.138725322Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-14T09:07:23.138728874Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-14T09:07:23.138731979Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-14T09:07:23.138734506Z [err]    File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+2026-03-14T09:07:23.138737208Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-14T09:07:23.138740103Z [err]    File "/app/main.py", line 34, in <module>
+2026-03-14T09:07:23.138742837Z [err]      app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+2026-03-14T09:07:23.138745906Z [err]                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:23.138748919Z [err]    File "/opt/venv/lib/python3.12/site-packages/starlette/staticfiles.py", line 56, in __init__
+2026-03-14T09:07:23.139708072Z [err]      raise RuntimeError(f"Directory '{directory}' does not exist")
+2026-03-14T09:07:23.139712573Z [err]  RuntimeError: Directory '/app/static' does not exist
+2026-03-14T09:07:24.120014588Z [err]  Traceback (most recent call last):
+2026-03-14T09:07:24.120024236Z [err]    File "/opt/venv/bin/uvicorn", line 8, in <module>
+2026-03-14T09:07:24.120028465Z [err]      sys.exit(main())
+2026-03-14T09:07:24.120032400Z [err]               ^^^^^^
+2026-03-14T09:07:24.120036405Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1485, in __call__
+2026-03-14T09:07:24.120040182Z [err]      return self.main(*args, **kwargs)
+2026-03-14T09:07:24.120043805Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.120049275Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1406, in main
+2026-03-14T09:07:24.120053394Z [err]      rv = self.invoke(ctx)
+2026-03-14T09:07:24.120056692Z [err]           ^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.120060320Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1269, in invoke
+2026-03-14T09:07:24.120063400Z [err]      return ctx.invoke(self.callback, **ctx.params)
+2026-03-14T09:07:24.120066331Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.120069338Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 824, in invoke
+2026-03-14T09:07:24.120072789Z [err]      return callback(*args, **kwargs)
+2026-03-14T09:07:24.121057609Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.121061278Z [err]             ^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.121062683Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/main.py", line 410, in main
+2026-03-14T09:07:24.121067403Z [err]      run(
+2026-03-14T09:07:24.121072270Z [err]    File "/root/.nix-profile/lib/python3.12/asyncio/runners.py", line 118, in run
+2026-03-14T09:07:24.121072321Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/main.py", line 577, in run
+2026-03-14T09:07:24.121078260Z [err]      server.run()
+2026-03-14T09:07:24.121078370Z [err]      return self._loop.run_until_complete(task)
+2026-03-14T09:07:24.121082798Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 65, in run
+2026-03-14T09:07:24.121086336Z [err]      return asyncio.run(self.serve(sockets=sockets))
+2026-03-14T09:07:24.121089216Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.121091970Z [err]  ^
+2026-03-14T09:07:24.121094726Z [err]    File "/root/.nix-profile/lib/python3.12/asyncio/runners.py", line 194, in run
+2026-03-14T09:07:24.121097584Z [err]      return runner.run(main)
+2026-03-14T09:07:24.122316776Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.122320122Z [err]    File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+2026-03-14T09:07:24.122323119Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 69, in serve
+2026-03-14T09:07:24.122326458Z [err]      await self._serve(sockets)
+2026-03-14T09:07:24.122330275Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 76, in _serve
+2026-03-14T09:07:24.122333221Z [err]      config.load()
+2026-03-14T09:07:24.122335890Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/config.py", line 434, in load
+2026-03-14T09:07:24.122338541Z [err]      self.loaded_app = import_from_string(self.app)
+2026-03-14T09:07:24.122341188Z [err]                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.122343844Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+2026-03-14T09:07:24.122347198Z [err]      module = importlib.import_module(module_str)
+2026-03-14T09:07:24.123662249Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.123666827Z [err]    File "/root/.nix-profile/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-14T09:07:24.123671591Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-14T09:07:24.123675624Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.123678969Z [err]  ^^^^^^^^^^^^^^
+2026-03-14T09:07:24.123683065Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-14T09:07:24.123686619Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-14T09:07:24.123689628Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-14T09:07:24.123692926Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-14T09:07:24.123696064Z [err]    File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+2026-03-14T09:07:24.123698750Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-14T09:07:24.123701798Z [err]    File "/app/main.py", line 34, in <module>
+2026-03-14T09:07:24.123704798Z [err]      app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+2026-03-14T09:07:24.124466910Z [err]                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:24.124471426Z [err]    File "/opt/venv/lib/python3.12/site-packages/starlette/staticfiles.py", line 56, in __init__
+2026-03-14T09:07:24.124476122Z [err]      raise RuntimeError(f"Directory '{directory}' does not exist")
+2026-03-14T09:07:24.124479742Z [err]  RuntimeError: Directory '/app/static' does not exist
+2026-03-14T09:07:25.188211710Z [err]  Traceback (most recent call last):
+2026-03-14T09:07:25.188219070Z [err]    File "/opt/venv/bin/uvicorn", line 8, in <module>
+2026-03-14T09:07:25.188222298Z [err]      sys.exit(main())
+2026-03-14T09:07:25.188225399Z [err]               ^^^^^^
+2026-03-14T09:07:25.188228736Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1485, in __call__
+2026-03-14T09:07:25.188233079Z [err]      return self.main(*args, **kwargs)
+2026-03-14T09:07:25.188236387Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.188239754Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1406, in main
+2026-03-14T09:07:25.188242762Z [err]      rv = self.invoke(ctx)
+2026-03-14T09:07:25.188246660Z [err]           ^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.188250133Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 1269, in invoke
+2026-03-14T09:07:25.188253545Z [err]      return ctx.invoke(self.callback, **ctx.params)
+2026-03-14T09:07:25.188258904Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.188262673Z [err]    File "/opt/venv/lib/python3.12/site-packages/click/core.py", line 824, in invoke
+2026-03-14T09:07:25.188266679Z [err]      return callback(*args, **kwargs)
+2026-03-14T09:07:25.189271132Z [err]      return runner.run(main)
+2026-03-14T09:07:25.189275735Z [err]             ^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.189278747Z [err]    File "/root/.nix-profile/lib/python3.12/asyncio/runners.py", line 118, in run
+2026-03-14T09:07:25.189281757Z [err]      return self._loop.run_until_complete(task)
+2026-03-14T09:07:25.189319592Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.189325813Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/main.py", line 410, in main
+2026-03-14T09:07:25.189329562Z [err]      run(
+2026-03-14T09:07:25.189333262Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/main.py", line 577, in run
+2026-03-14T09:07:25.189336679Z [err]      server.run()
+2026-03-14T09:07:25.189340364Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 65, in run
+2026-03-14T09:07:25.189349625Z [err]      return asyncio.run(self.serve(sockets=sockets))
+2026-03-14T09:07:25.189353172Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.189356054Z [err]  ^
+2026-03-14T09:07:25.189360041Z [err]    File "/root/.nix-profile/lib/python3.12/asyncio/runners.py", line 194, in run
+2026-03-14T09:07:25.190473198Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.190479448Z [err]    File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+2026-03-14T09:07:25.190483180Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 69, in serve
+2026-03-14T09:07:25.190486546Z [err]      await self._serve(sockets)
+2026-03-14T09:07:25.190490215Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/server.py", line 76, in _serve
+2026-03-14T09:07:25.190493993Z [err]      config.load()
+2026-03-14T09:07:25.190497692Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/config.py", line 434, in load
+2026-03-14T09:07:25.190501421Z [err]      self.loaded_app = import_from_string(self.app)
+2026-03-14T09:07:25.190504898Z [err]                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.190510503Z [err]    File "/opt/venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+2026-03-14T09:07:25.190514301Z [err]      module = importlib.import_module(module_str)
+2026-03-14T09:07:25.191725527Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.191729976Z [err]    File "/root/.nix-profile/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-14T09:07:25.191733159Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-14T09:07:25.191738584Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.191742239Z [err]  ^^^^^^^^^^^^^
+2026-03-14T09:07:25.191746372Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-14T09:07:25.191750075Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-14T09:07:25.191753745Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-14T09:07:25.191757818Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-14T09:07:25.191761887Z [err]    File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+2026-03-14T09:07:25.191765352Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-14T09:07:25.191769920Z [err]    File "/app/main.py", line 34, in <module>
+2026-03-14T09:07:25.191773160Z [err]      app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+2026-03-14T09:07:25.192900460Z [err]                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-14T09:07:25.192905016Z [err]    File "/opt/venv/lib/python3.12/site-packages/starlette/staticfiles.py", line 56, in __init__
+2026-03-14T09:07:25.192909574Z [err]      raise RuntimeError(f"Directory '{directory}' does not exist")
+2026-03-14T09:07:25.192913690Z [err]  RuntimeError: Directory '/app/static' does not exist
