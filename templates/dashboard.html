@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — {{ event.name }}</title>
+  <title>Дашборд — {{ event.name }}</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <style>
     body { background: var(--body-bg); overflow-x: hidden; }
@@ -34,7 +34,7 @@
     </div>
     <div class="live-pulse" style="color:var(--text-on-dark);">
       <span class="live-pulse__dot"></span>
-      <span class="label">Live</span>
+      <span class="label">Прямой эфир</span>
     </div>
   </div>
 </div>
@@ -44,15 +44,15 @@
   <div class="dash-stats">
     <div class="stat-card">
       <div class="stat-card__value" id="stat-count">0</div>
-      <div class="stat-card__label label text-secondary">Participants</div>
+      <div class="stat-card__label label text-secondary">Участники</div>
     </div>
     <div class="stat-card">
       <div class="stat-card__value" id="stat-avg">—</div>
-      <div class="stat-card__label label text-secondary">Average Score</div>
+      <div class="stat-card__label label text-secondary">Средний балл</div>
     </div>
     <div class="stat-card">
       <div class="stat-card__value" id="stat-top-level">—</div>
-      <div class="stat-card__label label text-secondary">Most Common Level</div>
+      <div class="stat-card__label label text-secondary">Самый частый уровень</div>
     </div>
   </div>
 </div>
@@ -66,8 +66,8 @@
         <path d="M7 7h.01M7 12h10M7 17h6"/>
       </svg>
     </div>
-    <p style="font-size:1.1rem; font-weight:500;">Waiting for participants...</p>
-    <p class="text-secondary" style="margin-top:0.5rem;">Results will appear here as people complete the assessment.</p>
+    <p style="font-size:1.1rem; font-weight:500;">Ожидаем участников...</p>
+    <p class="text-secondary" style="margin-top:0.5rem;">Результаты появятся здесь по мере прохождения теста.</p>
   </div>
 </div>
 
@@ -76,38 +76,38 @@
 
   <!-- Level Distribution -->
   <div class="dash-section">
-    <div class="dash-section__title">Literacy Level Distribution</div>
+    <div class="dash-section__title">Распределение по уровням</div>
     <div class="level-dist" id="level-dist"></div>
   </div>
 
   <!-- Dimension Averages -->
   <div class="dash-section">
-    <div class="dash-section__title">Dimension Averages</div>
+    <div class="dash-section__title">Средние по измерениям</div>
     <div class="dash-dims" id="dim-avgs"></div>
   </div>
 
   <!-- Industry & Country breakdown -->
   <div class="dash-section" style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
     <div>
-      <div class="dash-section__title">By Country</div>
+      <div class="dash-section__title">По странам</div>
       <div class="card" id="country-breakdown" style="padding:1.5rem;"></div>
     </div>
     <div>
-      <div class="dash-section__title">By Industry</div>
+      <div class="dash-section__title">По отраслям</div>
       <div class="card" id="industry-breakdown" style="padding:1.5rem;"></div>
     </div>
   </div>
 </div>
 
 <div style="padding:2rem 0; text-align:center;">
-  <span class="label text-secondary" style="opacity:0.3;">Powered by Yango Tech · AI Literacy Assessment</span>
+  <span class="label text-secondary" style="opacity:0.3;">Yango Tech · Оценка AI-грамотности</span>
 </div>
 
 <script>
 const SLUG = "{{ event.slug }}";
 const LEVELS = {{ levels_json|safe }};
 const DIMENSIONS = {{ dimensions_json|safe }};
-const LEVEL_COLORS = { Explorer: '#7A7A7A', Learner: '#FF8C00', Practitioner: '#FF1A1A', Architect: '#141414' };
+const LEVEL_COLORS = { 'Исследователь': '#7A7A7A', 'Ученик': '#FF8C00', 'Практик': '#FF1A1A', 'Архитектор': '#141414' };
 
 function updateDashboard(stats) {
   // Stats
@@ -131,7 +131,7 @@ function updateDashboard(stats) {
 
   // Level distribution
   let levelHtml = '';
-  const levelOrder = ['Explorer', 'Learner', 'Practitioner', 'Architect'];
+  const levelOrder = ['Исследователь', 'Ученик', 'Практик', 'Архитектор'];
   levelOrder.forEach(lvl => {
     const count = stats.levels[lvl] || 0;
     const pct = stats.count > 0 ? Math.round((count / stats.count) * 100) : 0;
@@ -173,7 +173,7 @@ function updateDashboard(stats) {
         <span class="text-secondary">${count} (${pct}%)</span>
       </div>`;
   });
-  document.getElementById('country-breakdown').innerHTML = countryHtml || '<span class="text-secondary">No data yet</span>';
+  document.getElementById('country-breakdown').innerHTML = countryHtml || '<span class="text-secondary">Пока нет данных</span>';
 
   // Industry breakdown
   let industryHtml = '';
@@ -186,7 +186,7 @@ function updateDashboard(stats) {
         <span class="text-secondary">${count} (${pct}%)</span>
       </div>`;
   });
-  document.getElementById('industry-breakdown').innerHTML = industryHtml || '<span class="text-secondary">No data yet</span>';
+  document.getElementById('industry-breakdown').innerHTML = industryHtml || '<span class="text-secondary">Пока нет данных</span>';
 }
 
 // ─── SSE Live Updates ────────────────────────────────────────────────────

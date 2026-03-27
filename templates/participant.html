@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AI Literacy Assessment — {{ event.name }}</title>
+  <title>Оценка AI-грамотности — {{ event.name }}</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <style>
     /* Inline overrides for mobile-first participant experience */
@@ -20,13 +20,13 @@
       <div>
         <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
              alt="Yango Tech" style="height:24px; filter:invert(1); margin:0 auto 2rem;">
-        <h1 class="headline h1 welcome__title">AI Literacy<br>Check</h1>
+        <h1 class="headline h1 welcome__title">Проверка<br>AI-грамотности</h1>
         <p class="welcome__subtitle">
-          12 quick questions to measure your AI fluency. Takes about 3 minutes.
-          Your name won't appear on screen — only aggregated results are shown.
+          12 быстрых вопросов для оценки вашей AI-грамотности. Займёт около 3 минут.
+          Ваше имя не появится на экране — показываются только агрегированные результаты.
         </p>
         <button class="btn btn--primary" onclick="showStep('step-register')">
-          Let's Go
+          Начать
         </button>
         <div class="welcome__meta">{{ event.name }}{% if event.location %} · {{ event.location }}{% endif %}</div>
       </div>
@@ -38,38 +38,38 @@
     <div class="app-header">
       <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
            alt="Yango Tech" class="app-header__logo">
-      <span class="label text-secondary">Step 1 of 3</span>
+      <span class="label text-secondary">Шаг 1 из 3</span>
     </div>
     <div class="container" style="flex:1; display:flex; flex-direction:column;">
       <div class="step__content">
-        <h2 class="headline h3" style="margin-bottom:0.5rem;">About You</h2>
-        <p class="text-secondary" style="margin-bottom:1.5rem;">All fields are optional except country and industry.</p>
+        <h2 class="headline h3" style="margin-bottom:0.5rem;">О вас</h2>
+        <p class="text-secondary" style="margin-bottom:1.5rem;">Все поля необязательны, кроме страны и отрасли.</p>
 
         <div class="form-group">
-          <label class="label">Name</label>
-          <input class="input" type="text" id="reg-name" placeholder="Optional">
+          <label class="label">Имя</label>
+          <input class="input" type="text" id="reg-name" placeholder="Необязательно">
         </div>
         <div class="form-group">
           <label class="label">Email</label>
-          <input class="input" type="email" id="reg-email" placeholder="Optional">
+          <input class="input" type="email" id="reg-email" placeholder="Необязательно">
         </div>
         <div class="form-group">
-          <label class="label">Phone</label>
-          <input class="input" type="tel" id="reg-phone" placeholder="Optional">
+          <label class="label">Телефон</label>
+          <input class="input" type="tel" id="reg-phone" placeholder="Необязательно">
         </div>
         <div class="form-group">
-          <label class="label">Country</label>
+          <label class="label">Страна</label>
           <select class="input" id="reg-country" required>
-            <option value="" disabled selected>Select your country</option>
+            <option value="" disabled selected>Выберите страну</option>
             {% for c in countries %}
             <option value="{{ c }}">{{ c }}</option>
             {% endfor %}
           </select>
         </div>
         <div class="form-group">
-          <label class="label">Industry</label>
+          <label class="label">Отрасль</label>
           <select class="input" id="reg-industry" required>
-            <option value="" disabled selected>Select your industry</option>
+            <option value="" disabled selected>Выберите отрасль</option>
             {% for ind in industries %}
             <option value="{{ ind }}">{{ ind }}</option>
             {% endfor %}
@@ -79,14 +79,14 @@
         <div class="consent-row">
           <input type="checkbox" id="reg-consent" checked>
           <span>
-            I'm ok with you saving my responses for aggregate research.
-            You can delete your data anytime after the test.
+            Я согласен(-на) на сохранение моих ответов для агрегированного анализа.
+            Вы можете удалить свои данные в любой момент после теста.
           </span>
         </div>
       </div>
       <div class="step__footer">
         <button class="btn btn--primary btn--full" onclick="startQuiz()" id="btn-start-quiz">
-          Start the Test
+          Начать тест
         </button>
       </div>
     </div>
@@ -122,7 +122,7 @@
           </svg>
         </div>
         <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
-        <h2 class="headline h3">Computing your results...</h2>
+        <h2 class="headline h3">Подсчитываем ваши результаты...</h2>
       </div>
     </div>
   </div>
@@ -130,36 +130,36 @@
   <!-- ═══ STEP 4: Results ═══════════════════════════════════════════════ -->
   <div class="step" id="step-results">
     <div class="results-hero" id="results-hero">
-      <span class="label" style="opacity:0.5;">Your AI Literacy Score</span>
+      <span class="label" style="opacity:0.5;">Ваш уровень AI-грамотности</span>
       <div class="results-hero__score" id="results-score">—</div>
-      <span class="label" style="opacity:0.5;">out of 100</span>
+      <span class="label" style="opacity:0.5;">из 100</span>
       <div class="results-hero__level" id="results-level">—</div>
     </div>
     <div class="results-body container">
       <p id="results-desc" style="margin-bottom:2rem; line-height:1.6;"></p>
 
-      <h3 class="headline" style="font-size:1rem; margin-bottom:1rem;">YOUR DIMENSIONS</h3>
+      <h3 class="headline" style="font-size:1rem; margin-bottom:1rem;">ВАШИ ИЗМЕРЕНИЯ</h3>
       <div id="results-dims"></div>
 
       <div class="benchmark-card" id="benchmark-card" style="display:none;">
-        <h3 class="headline" style="font-size:1rem; margin-bottom:1rem;">HOW YOU COMPARE</h3>
+        <h3 class="headline" style="font-size:1rem; margin-bottom:1rem;">СРАВНЕНИЕ</h3>
         <div id="benchmark-rows"></div>
       </div>
 
       <div class="results-actions">
         <a href="/framework" target="_blank" class="btn btn--primary btn--full" style="display:block; text-align:center;">
-          Explore the AI Maturity Framework
+          Фреймворк AI-зрелости
         </a>
         <button class="btn btn--primary btn--full" id="btn-download-pdf" onclick="downloadPDF()" style="background:var(--dark); color:white;">
-          Download Results PDF
+          Скачать PDF с результатами
         </button>
         <button class="btn btn--outline btn--full" onclick="deleteMyData()">
-          Delete My Data
+          Удалить мои данные
         </button>
       </div>
 
       <p class="text-secondary text-center" style="margin-top:1.5rem; font-size:0.75rem;">
-        Powered by Yango Tech · Framework: Nate Jones / PAICE
+        Yango Tech · Фреймворк: Nate Jones / PAICE
       </p>
     </div>
   </div>
@@ -185,7 +185,7 @@ function startQuiz() {
   const country = document.getElementById('reg-country').value;
   const industry = document.getElementById('reg-industry').value;
   if (!country || !industry) {
-    alert('Please select your country and industry.');
+    alert('Пожалуйста, выберите страну и отрасль.');
     return;
   }
   currentQ = 0;
@@ -263,7 +263,7 @@ async function submitAssessment() {
     renderResults(data);
     showStep('step-results');
   } catch (err) {
-    alert('Something went wrong: ' + err.message);
+    alert('Что-то пошло не так: ' + err.message);
     showStep('step-quiz');
   }
 }
@@ -274,7 +274,7 @@ function renderResults(data) {
 
   const levelEl = document.getElementById('results-level');
   levelEl.textContent = data.level;
-  const levelColors = { Explorer: '#7A7A7A', Learner: '#FF8C00', Practitioner: '#FF1A1A', Architect: '#141414' };
+  const levelColors = { 'Исследователь': '#7A7A7A', 'Ученик': '#FF8C00', 'Практик': '#FF1A1A', 'Архитектор': '#141414' };
   levelEl.style.background = levelColors[data.level] || '#7A7A7A';
   levelEl.style.color = 'white';
 
@@ -283,12 +283,12 @@ function renderResults(data) {
   // Dimension bars
   const dims = data.dimension_scores;
   const dimLabels = {
-    context_assembly: 'Context Assembly',
-    quality_judgment: 'Quality Judgment',
-    task_decomposition: 'Task Decomposition',
-    iterative_refinement: 'Iterative Refinement',
-    workflow_integration: 'Workflow Integration',
-    frontier_recognition: 'Frontier Recognition',
+    context_assembly: 'Сборка контекста',
+    quality_judgment: 'Оценка качества',
+    task_decomposition: 'Декомпозиция задач',
+    iterative_refinement: 'Итеративная доработка',
+    workflow_integration: 'Интеграция в процессы',
+    frontier_recognition: 'Понимание границ ИИ',
   };
 
   let dimsHtml = '';
@@ -313,21 +313,21 @@ function renderResults(data) {
 
   benchHtml += `
     <div class="benchmark-row">
-      <span style="font-weight:500;">You</span>
+      <span style="font-weight:500;">Вы</span>
       <span style="font-weight:600; color:var(--primary);">${Math.round(data.total_score)}%</span>
     </div>`;
 
   if (data.regional_benchmark && data.regional_benchmark.score) {
     benchHtml += `
       <div class="benchmark-row">
-        <span class="text-secondary">${data.regional_benchmark.region} average</span>
+        <span class="text-secondary">Среднее по ${data.regional_benchmark.region}</span>
         <span>${data.regional_benchmark.score}%</span>
       </div>`;
   }
 
   benchHtml += `
     <div class="benchmark-row">
-      <span class="text-secondary">Global corporate average</span>
+      <span class="text-secondary">Среднемировой корпоративный показатель</span>
       <span>${data.global_benchmark.score}%</span>
     </div>`;
 
@@ -343,15 +343,15 @@ function downloadPDF() {
 
 async function deleteMyData() {
   if (!participantId) return;
-  if (!confirm('This will permanently delete your personal information. Your anonymous score will remain in aggregate statistics. Continue?')) return;
+  if (!confirm('Это навсегда удалит вашу личную информацию. Анонимный результат останется в общей статистике. Продолжить?')) return;
 
   try {
     await fetch(`/api/participant/${participantId}`, { method: 'DELETE' });
-    alert('Your personal data has been deleted.');
+    alert('Ваши личные данные удалены.');
     document.querySelector('.results-actions').innerHTML =
-      '<p class="text-secondary text-center">Your data has been deleted.</p>';
+      '<p class="text-secondary text-center">Ваши данные удалены.</p>';
   } catch (err) {
-    alert('Error deleting data. Please try again.');
+    alert('Ошибка удаления данных. Попробуйте ещё раз.');
   }
 }
 </script>

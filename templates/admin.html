@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — AI Literacy Assessment</title>
+  <title>Админ — Оценка AI-грамотности</title>
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -13,11 +13,11 @@
   <div class="passphrase-card">
     <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
          alt="Yango Tech" style="height:24px; filter:invert(1); margin:0 auto;">
-    <p class="label" style="color:rgba(255,255,255,0.4); margin-top:1rem;">Admin Access</p>
-    <input class="input" type="password" id="passphrase-input" placeholder="Enter passphrase"
+    <p class="label" style="color:rgba(255,255,255,0.4); margin-top:1rem;">Доступ администратора</p>
+    <input class="input" type="password" id="passphrase-input" placeholder="Введите пароль"
            onkeydown="if(event.key==='Enter')authenticate()">
-    <button class="btn btn--primary btn--full" onclick="authenticate()">Enter</button>
-    <p id="auth-error" style="color:var(--primary); margin-top:0.75rem; font-size:0.82rem; display:none;">Wrong passphrase</p>
+    <button class="btn btn--primary btn--full" onclick="authenticate()">Войти</button>
+    <p id="auth-error" style="color:var(--primary); margin-top:0.75rem; font-size:0.82rem; display:none;">Неверный пароль</p>
   </div>
 </div>
 
@@ -26,40 +26,40 @@
   <div class="app-header" style="padding:1rem 1.87rem;">
     <img src="https://avatars.mds.yandex.net/get-lpc/14837328/21641dca-3288-4eeb-8d99-81f8cb31a763/orig"
          alt="Yango Tech" class="app-header__logo">
-    <span class="label" style="color:rgba(255,255,255,0.5);">Admin Panel</span>
+    <span class="label" style="color:rgba(255,255,255,0.5);">Панель администратора</span>
   </div>
 
   <div class="container--wide admin-wrapper">
 
     <!-- Create Event -->
-    <h2 class="headline h3" style="margin-bottom:0.5rem;">Events</h2>
-    <p class="text-secondary">Create and manage assessment events.</p>
+    <h2 class="headline h3" style="margin-bottom:0.5rem;">Мероприятия</h2>
+    <p class="text-secondary">Создание и управление мероприятиями.</p>
 
     <div class="create-form" id="create-form">
-      <h3 style="font-weight:600; margin-bottom:1rem;">Create New Event</h3>
+      <h3 style="font-weight:600; margin-bottom:1rem;">Создать мероприятие</h3>
       <div class="create-form__grid">
         <div class="form-group">
-          <label class="label">Event Name</label>
+          <label class="label">Название</label>
           <input class="input" id="ev-name" placeholder="AI Won't Help You">
         </div>
         <div class="form-group">
-          <label class="label">URL Slug</label>
+          <label class="label">URL-слаг</label>
           <input class="input" id="ev-slug" placeholder="ai-wont-help-you">
         </div>
         <div class="form-group">
-          <label class="label">Location</label>
-          <input class="input" id="ev-location" placeholder="Dubai">
+          <label class="label">Место</label>
+          <input class="input" id="ev-location" placeholder="Москва">
         </div>
         <div class="form-group">
-          <label class="label">Date</label>
+          <label class="label">Дата</label>
           <input class="input" id="ev-date" type="date">
         </div>
       </div>
       <div class="form-group" style="margin-top:1rem;">
-        <label class="label">Description (optional)</label>
-        <input class="input" id="ev-desc" placeholder="Round-table discussion on AI literacy">
+        <label class="label">Описание (необязательно)</label>
+        <input class="input" id="ev-desc" placeholder="Круглый стол по AI-грамотности">
       </div>
-      <button class="btn btn--primary" style="margin-top:1rem;" onclick="handleCreateEvent()">Create Event</button>
+      <button class="btn btn--primary" style="margin-top:1rem;" onclick="handleCreateEvent()">Создать</button>
     </div>
 
     <!-- Event List -->
@@ -74,8 +74,8 @@
         <p class="text-secondary" style="margin-bottom:1.5rem; font-size:0.78rem;" id="qr-url"></p>
         <img id="qr-image" style="width:100%; max-width:280px; margin:0 auto 1.5rem; border-radius:var(--radius-input);">
         <div style="display:flex; gap:0.75rem;">
-          <a id="qr-download-link" class="btn btn--primary btn--full btn--small" download>Download PNG</a>
-          <button class="btn btn--outline btn--full btn--small" onclick="closeQR()">Close</button>
+          <a id="qr-download-link" class="btn btn--primary btn--full btn--small" download>Скачать PNG</a>
+          <button class="btn btn--outline btn--full btn--small" onclick="closeQR()">Закрыть</button>
         </div>
       </div>
     </div>
@@ -87,20 +87,20 @@
         <table class="participants-table" id="participants-table">
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Имя</th>
               <th>Email</th>
-              <th>Phone</th>
-              <th>Country</th>
-              <th>Industry</th>
-              <th>Score</th>
-              <th>Level</th>
-              <th>Submitted</th>
+              <th>Телефон</th>
+              <th>Страна</th>
+              <th>Отрасль</th>
+              <th>Балл</th>
+              <th>Уровень</th>
+              <th>Дата</th>
             </tr>
           </thead>
           <tbody id="participants-tbody"></tbody>
         </table>
         <p id="no-participants" class="text-secondary text-center" style="padding:2rem; display:none;">
-          No participants with consent to store data yet.
+          Пока нет участников, давших согласие на хранение данных.
         </p>
       </div>
     </div>
@@ -128,7 +128,7 @@ async function authenticate() {
       document.getElementById('auth-error').style.display = 'block';
     }
   } catch (e) {
-    alert('Connection error');
+    alert('Ошибка соединения');
   }
 }
 
@@ -138,7 +138,7 @@ async function loadEvents() {
   const list = document.getElementById('event-list');
 
   if (events.length === 0) {
-    list.innerHTML = '<p class="text-secondary" style="padding:2rem 0;">No events yet. Create your first one above.</p>';
+    list.innerHTML = '<p class="text-secondary" style="padding:2rem 0;">Мероприятий пока нет. Создайте первое выше.</p>';
     return;
   }
 
@@ -147,26 +147,26 @@ async function loadEvents() {
       <div class="event-item__info">
         <div class="event-item__name">${e.name}</div>
         <div class="event-item__meta">
-          /${e.slug} · ${e.location || 'No location'} · ${e.participant_count} participants
+          /${e.slug} · ${e.location || 'Без места'} · ${e.participant_count} участников
           <span class="badge badge--${e.status}">${e.status}</span>
         </div>
       </div>
       <div class="event-item__actions">
         <button class="btn btn--small btn--dark" onclick="window.open('/dashboard/${e.slug}','_blank')">
-          Dashboard
+          Дашборд
         </button>
         <button class="btn btn--small btn--outline" onclick="downloadQR('${e.id}', '${e.slug}')">
-          QR Code
+          QR-код
         </button>
         <button class="btn btn--small btn--outline" onclick="copyLink('${e.slug}')">
-          Copy Link
+          Копировать ссылку
         </button>
         <button class="btn btn--small btn--ghost" onclick="showParticipants('${e.id}', '${e.name}')">
-          Participants
+          Участники
         </button>
         ${e.status === 'active'
-          ? `<button class="btn btn--small btn--ghost" onclick="toggleEvent('${e.id}','closed')" style="color:var(--primary);">Close</button>`
-          : `<button class="btn btn--small btn--ghost" onclick="toggleEvent('${e.id}','active')">Reopen</button>`}
+          ? `<button class="btn btn--small btn--ghost" onclick="toggleEvent('${e.id}','closed')" style="color:var(--primary);">Закрыть</button>`
+          : `<button class="btn btn--small btn--ghost" onclick="toggleEvent('${e.id}','active')">Открыть</button>`}
       </div>
     </div>
   `).join('');
@@ -175,7 +175,7 @@ async function loadEvents() {
 async function handleCreateEvent() {
   const name = document.getElementById('ev-name').value.trim();
   const slug = document.getElementById('ev-slug').value.trim().toLowerCase().replace(/\s+/g, '-');
-  if (!name || !slug) { alert('Name and slug are required.'); return; }
+  if (!name || !slug) { alert('Название и слаг обязательны.'); return; }
 
   try {
     const resp = await fetch('/api/admin/events', {
@@ -196,12 +196,12 @@ async function handleCreateEvent() {
         document.getElementById(id).value = '');
       loadEvents();
     } else {
-      let msg = 'Error creating event';
+      let msg = 'Ошибка создания мероприятия';
       try { const err = await resp.json(); msg = err.detail || msg; } catch(e) {}
       alert(msg);
     }
   } catch (e) {
-    alert('Connection error: ' + e.message);
+    alert('Ошибка соединения: ' + e.message);
   }
 }
 
@@ -226,9 +226,9 @@ function closeQR() {
 function copyLink(slug) {
   const url = `${BASE}/event/${slug}`;
   navigator.clipboard.writeText(url).then(() => {
-    alert(`Link copied: ${url}`);
+    alert(`Ссылка скопирована: ${url}`);
   }).catch(() => {
-    prompt('Copy this link:', url);
+    prompt('Скопируйте ссылку:', url);
   });
 }
 
@@ -242,7 +242,7 @@ async function toggleEvent(eventId, status) {
 }
 
 async function showParticipants(eventId, eventName) {
-  document.getElementById('detail-title').textContent = `Participants — ${eventName}`;
+  document.getElementById('detail-title').textContent = `Участники — ${eventName}`;
   document.getElementById('participant-detail').style.display = 'block';
 
   const resp = await fetch(`/api/admin/events/${eventId}/participants`);
@@ -267,7 +267,7 @@ async function showParticipants(eventId, eventName) {
       <td>${p.industry || '—'}</td>
       <td style="font-weight:600;">${p.total_score != null ? Math.round(p.total_score) : '—'}</td>
       <td><span class="badge" style="background:${
-        {Explorer:'#7A7A7A',Learner:'#FF8C00',Practitioner:'#FF1A1A',Architect:'#141414'}[p.level] || '#7A7A7A'
+        {'Исследователь':'#7A7A7A','Ученик':'#FF8C00','Практик':'#FF1A1A','Архитектор':'#141414'}[p.level] || '#7A7A7A'
       }; color:white;">${p.level || '—'}</span></td>
       <td class="text-secondary">${p.submitted_at ? new Date(p.submitted_at).toLocaleString() : '—'}</td>
     </tr>
