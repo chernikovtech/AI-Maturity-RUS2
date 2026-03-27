@@ -141,3 +141,4 @@ python main.py
 - No email notifications
 - English only
 - SSE reconnects on error with 5s delay — could be more graceful
+
