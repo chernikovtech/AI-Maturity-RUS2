@@ -8,7 +8,7 @@ from config import DIMENSIONS, LEVELS, QUESTIONS
 def compute_scores(answers: dict[str, int]) -> dict:
     """
     answers: {"context_q1": 3, "context_q2": 2, ...}
-    Returns: {"total_score": 58.3, "level": "Practitioner", "dimension_scores": {...}}
+    Returns: {"total_score": 58.3, "level": "Практик", "dimension_scores": {...}}
     """
     # Group answers by dimension
     dim_answers: dict[str, list[int]] = {}

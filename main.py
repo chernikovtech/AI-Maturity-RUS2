@@ -168,7 +168,7 @@ async def submit_assessment(slug: str, request: Request, db: Session = Depends(g
     # Regional comparison
     region = get_region_for_country(participant.country or "")
     regional_data = REGIONAL_BENCHMARKS.get(region) if region else None
-    global_avg = REGIONAL_BENCHMARKS["Global Average"]
+    global_avg = REGIONAL_BENCHMARKS["Среднемировой показатель"]
 
     return {
         "participant_id": participant.id,
