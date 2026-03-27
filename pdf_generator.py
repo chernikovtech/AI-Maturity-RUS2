@@ -4,12 +4,23 @@ Creates a generic AI Literacy Framework infographic with the participant's score
 Uses ReportLab.
 """
 import io
+import os
 import math
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm, cm
 from reportlab.lib.colors import HexColor, white, black, Color
 from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from config import DIMENSIONS, LEVELS
+
+# ─── Register Cyrillic-capable fonts ─────────────────────────────────────────
+_FONT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
+pdfmetrics.registerFont(TTFont("DejaVu", os.path.join(_FONT_DIR, "DejaVuSans.ttf")))
+pdfmetrics.registerFont(TTFont("DejaVu-Bold", os.path.join(_FONT_DIR, "DejaVuSans-Bold.ttf")))
+
+FONT = "DejaVu"
+FONT_BOLD = "DejaVu-Bold"
 
 
 # ─── Colors ──────────────────────────────────────────────────────────────────
@@ -54,34 +65,34 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
 
     # Logo text (since we can't embed custom fonts in reportlab easily)
     c.setFillColor(WHITE)
-    c.setFont("Helvetica-Bold", 14)
+    c.setFont(FONT_BOLD, 14)
     c.drawString(30, H - 40, "YANGO TECH")
-    c.setFont("Helvetica", 9)
+    c.setFont(FONT, 9)
     c.setFillColor(HexColor("#999999"))
     c.drawString(30, H - 55, "Оценка AI-грамотности")
 
     # Big score
     c.setFillColor(WHITE)
-    c.setFont("Helvetica-Bold", 60)
+    c.setFont(FONT_BOLD, 60)
     c.drawString(30, H - 130, f"{total_score:.0f}")
-    c.setFont("Helvetica", 14)
-    c.drawString(30 + c.stringWidth(f"{total_score:.0f}", "Helvetica-Bold", 60) + 8, H - 115, "/ 100")
+    c.setFont(FONT, 14)
+    c.drawString(30 + c.stringWidth(f"{total_score:.0f}", FONT_BOLD, 60) + 8, H - 115, "/ 100")
 
     # Level badge
     lvl_color = LEVEL_COLORS.get(level, RED)
     badge_x = 30
     badge_y = H - 175
-    badge_w = c.stringWidth(level.upper(), "Helvetica-Bold", 13) + 30
+    badge_w = c.stringWidth(level.upper(), FONT_BOLD, 13) + 30
     c.setFillColor(lvl_color)
     c.roundRect(badge_x, badge_y, badge_w, 28, 14, fill=1, stroke=0)
     c.setFillColor(WHITE)
-    c.setFont("Helvetica-Bold", 13)
+    c.setFont(FONT_BOLD, 13)
     c.drawString(badge_x + 15, badge_y + 8, level.upper())
 
     # Event name
     if event_name:
         c.setFillColor(HexColor("#666666"))
-        c.setFont("Helvetica", 9)
+        c.setFont(FONT, 9)
         c.drawRightString(W - 30, H - 40, event_name)
 
     # ── Radar chart (right side of header) ───────────────────────────────
@@ -95,7 +106,7 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
     # ── Your Dimensions section ──────────────────────────────────────────
     y = H - header_h - 40
     c.setFillColor(DARK)
-    c.setFont("Helvetica-Bold", 16)
+    c.setFont(FONT_BOLD, 16)
     c.drawString(30, y, "ВАШИ ИЗМЕРЕНИЯ")
     y -= 10
 
@@ -106,12 +117,12 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
         score = dimension_scores.get(dk, 0)
 
         # Label
-        c.setFont("Helvetica-Bold", 10)
+        c.setFont(FONT_BOLD, 10)
         c.setFillColor(DARK)
         c.drawString(30, y + 10, dim["label"].upper())
 
         # Score value
-        c.setFont("Helvetica-Bold", 10)
+        c.setFont(FONT_BOLD, 10)
         c.setFillColor(RED)
         c.drawRightString(W - 30, y + 10, f"{score:.0f}%")
 
@@ -131,9 +142,9 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
     # ── The Framework section ────────────────────────────────────────────
     y -= 50
     c.setFillColor(DARK)
-    c.setFont("Helvetica-Bold", 16)
+    c.setFont(FONT_BOLD, 16)
     c.drawString(30, y, "ФРЕЙМВОРК AI-ГРАМОТНОСТИ")
-    c.setFont("Helvetica", 9)
+    c.setFont(FONT, 9)
     c.setFillColor(MID_GREY)
     c.drawString(30, y - 16, "На основе 10-уровневой шкалы Нейта Джонса и оценки критического мышления")
     y -= 40
@@ -152,17 +163,17 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
         c.roundRect(30, y, 6, box_h, 3, fill=1, stroke=0)
 
         # Level name
-        c.setFont("Helvetica-Bold", 11)
+        c.setFont(FONT_BOLD, 11)
         c.setFillColor(DARK)
         c.drawString(48, y + box_h - 18, lvl["label"].upper())
 
         # Score range
-        c.setFont("Helvetica", 9)
+        c.setFont(FONT, 9)
         c.setFillColor(MID_GREY)
         c.drawRightString(W - 40, y + box_h - 18, f"{lvl['min_pct']}–{lvl['max_pct']}%")
 
         # Description (truncated to fit)
-        c.setFont("Helvetica", 8)
+        c.setFont(FONT, 8)
         c.setFillColor(HexColor("#555555"))
         desc = lvl["description"][:120] + ("..." if len(lvl["description"]) > 120 else "")
         c.drawString(48, y + 10, desc)
@@ -175,7 +186,7 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
 
     # ── Footer ───────────────────────────────────────────────────────────
     c.setFillColor(MID_GREY)
-    c.setFont("Helvetica", 7)
+    c.setFont(FONT, 7)
     c.drawString(30, 20, "Yango Tech  |  Фреймворк: Nate Jones / PAICE  |  tech.yango.com")
     c.drawRightString(W - 30, 20, "Это индикатор самооценки, а не сертификация.")
 
@@ -213,7 +224,7 @@ def _draw_radar(c, cx, cy, radius, dimension_scores):
         lx = cx + label_r * math.cos(angle)
         ly = cy + label_r * math.sin(angle)
         c.setFillColor(HexColor("#CCCCCC"))
-        c.setFont("Helvetica", 6)
+        c.setFont(FONT, 6)
         c.drawCentredString(lx, ly - 3, DIMENSIONS[dk]["short"].upper())
 
         # Data point
@@ -251,14 +262,14 @@ def _draw_framework_page(c):
     c.rect(0, H - header_h, W, header_h, fill=1, stroke=0)
 
     c.setFillColor(WHITE)
-    c.setFont("Helvetica-Bold", 14)
+    c.setFont(FONT_BOLD, 14)
     c.drawString(margin, H - 40, "YANGO TECH")
-    c.setFont("Helvetica", 9)
+    c.setFont(FONT, 9)
     c.setFillColor(HexColor("#999999"))
     c.drawString(margin, H - 55, "Фреймворк AI-зрелости")
 
     c.setFillColor(WHITE)
-    c.setFont("Helvetica-Bold", 28)
+    c.setFont(FONT_BOLD, 28)
     c.drawString(margin, H - 105, "ФРЕЙМВОРК AI-ЗРЕЛОСТИ")
 
     # ── Body background ───────────────────────────────────────────────────
@@ -269,15 +280,15 @@ def _draw_framework_page(c):
 
     # ── Dual-Track Philosophy ─────────────────────────────────────────────
     c.setFillColor(RED)
-    c.setFont("Helvetica-Bold", 8)
+    c.setFont(FONT_BOLD, 8)
     c.drawString(margin, y, "КЛЮЧЕВАЯ ИДЕЯ")
     y -= 20
     c.setFillColor(DARK)
-    c.setFont("Helvetica-Bold", 16)
+    c.setFont(FONT_BOLD, 16)
     c.drawString(margin, y, "ФИЛОСОФИЯ ДВУХ ТРЕКОВ")
     y -= 16
     c.setFillColor(MID_GREY)
-    c.setFont("Helvetica", 8)
+    c.setFont(FONT, 8)
     c.drawString(margin, y, "Настоящая AI-зрелость требует синхронного развития организационной инфраструктуры и индивидуальных компетенций.")
     y -= 25
 
@@ -293,7 +304,7 @@ def _draw_framework_page(c):
     c.setFillColor(DARK)
     c.roundRect(left_x, y - card_h, 4, card_h, 2, fill=1, stroke=0)
 
-    c.setFont("Helvetica-Bold", 8)
+    c.setFont(FONT_BOLD, 8)
     c.setFillColor(DARK)
     c.drawString(left_x + 14, y - 16, "ОРГАНИЗАЦИОННЫЙ ТРЕК")
     org_items = [
@@ -302,7 +313,7 @@ def _draw_framework_page(c):
         "Этические политики и комплаенс",
         "Управление поставщиками и моделями",
     ]
-    c.setFont("Helvetica", 7.5)
+    c.setFont(FONT, 7.5)
     c.setFillColor(HexColor("#555555"))
     for i, item in enumerate(org_items):
         iy = y - 34 - i * 20
@@ -317,7 +328,7 @@ def _draw_framework_page(c):
     c.setFillColor(RED)
     c.roundRect(right_x, y - card_h, 4, card_h, 2, fill=1, stroke=0)
 
-    c.setFont("Helvetica-Bold", 8)
+    c.setFont(FONT_BOLD, 8)
     c.setFillColor(RED)
     c.drawString(right_x + 14, y - 16, "ИНДИВИДУАЛЬНЫЙ ТРЕК")
     ind_items = [
@@ -326,7 +337,7 @@ def _draw_framework_page(c):
         "Критическая проверка результатов",
         "Адаптивность к изменениям",
     ]
-    c.setFont("Helvetica", 7.5)
+    c.setFont(FONT, 7.5)
     for i, item in enumerate(ind_items):
         iy = y - 34 - i * 20
         c.setFillColor(RED)
@@ -344,10 +355,10 @@ def _draw_framework_page(c):
     c.roundRect(left_x, y - risk_h, risk_w, risk_h, 8, fill=1, stroke=0)
     c.setFillColor(RED)
     c.roundRect(left_x, y - risk_h, 3, risk_h, 2, fill=1, stroke=0)
-    c.setFont("Helvetica-Bold", 8)
+    c.setFont(FONT_BOLD, 8)
     c.setFillColor(RED)
     c.drawString(left_x + 12, y - 16, "ТЕНЕВОЙ AI")
-    c.setFont("Helvetica", 7)
+    c.setFont(FONT, 7)
     c.setFillColor(HexColor("#555555"))
     c.drawString(left_x + 12, y - 30, "Высокое индивидуальное использование, низкое управление.")
     c.drawString(left_x + 12, y - 42, "Риски безопасности и комплаенса растут бесконтрольно.")
@@ -356,10 +367,10 @@ def _draw_framework_page(c):
     c.roundRect(right_x, y - risk_h, risk_w, risk_h, 8, fill=1, stroke=0)
     c.setFillColor(MID_GREY)
     c.roundRect(right_x, y - risk_h, 3, risk_h, 2, fill=1, stroke=0)
-    c.setFont("Helvetica-Bold", 8)
+    c.setFont(FONT_BOLD, 8)
     c.setFillColor(DARK)
     c.drawString(right_x + 12, y - 16, "AI НА ПОЛКЕ")
-    c.setFont("Helvetica", 7)
+    c.setFont(FONT, 7)
     c.setFillColor(HexColor("#555555"))
     c.drawString(right_x + 12, y - 30, "Большие инвестиции в инфраструктуру, нулевое использование.")
     c.drawString(right_x + 12, y - 42, "Пробелы в обучении не позволяют сотрудникам извлекать пользу.")
@@ -368,11 +379,11 @@ def _draw_framework_page(c):
 
     # ── 5 Stages of AI Maturity ───────────────────────────────────────────
     c.setFillColor(RED)
-    c.setFont("Helvetica-Bold", 8)
+    c.setFont(FONT_BOLD, 8)
     c.drawString(margin, y, "МОДЕЛЬ РАЗВИТИЯ")
     y -= 20
     c.setFillColor(DARK)
-    c.setFont("Helvetica-Bold", 16)
+    c.setFont(FONT_BOLD, 16)
     c.drawString(margin, y, "5 СТАДИЙ AI-ЗРЕЛОСТИ")
     y -= 25
 
@@ -403,23 +414,23 @@ def _draw_framework_page(c):
             c.setFillColor(LIGHT_BG)
         c.circle(circle_x, circle_y, 12, fill=1, stroke=0)
         c.setFillColor(DARK if not is_active else WHITE)
-        c.setFont("Helvetica-Bold", 9)
+        c.setFont(FONT_BOLD, 9)
         c.drawCentredString(circle_x, circle_y - 3, str(i + 1))
 
         # Title
         c.setFillColor(WHITE if is_active else DARK)
-        c.setFont("Helvetica-Bold", 10)
+        c.setFont(FONT_BOLD, 10)
         c.drawString(margin + 44, sy - 18, title)
 
         # Description
         c.setFillColor(HexColor("#AAAAAA") if is_active else HexColor("#555555"))
-        c.setFont("Helvetica", 7.5)
+        c.setFont(FONT, 7.5)
         c.drawString(margin + 44, sy - 34, desc[:100])
         if len(desc) > 100:
             c.drawString(margin + 44, sy - 44, desc[100:])
 
     # ── Footer ────────────────────────────────────────────────────────────
     c.setFillColor(MID_GREY)
-    c.setFont("Helvetica", 7)
+    c.setFont(FONT, 7)
     c.drawString(margin, 20, "Yango Tech  |  Фреймворк AI-зрелости  |  tech.yango.com")
     c.drawRightString(W - margin, 20, "Подробнее: /framework")
