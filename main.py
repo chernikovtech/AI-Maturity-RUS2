@@ -28,7 +28,7 @@ from pdf_generator import generate_infographic_pdf
 
 
 # ─── App Setup ───────────────────────────────────────────────────────────────
-app = FastAPI(title="AI Literacy Assessment", version="1.0.0")
+app = FastAPI(title="Оценка AI-грамотности", version="1.0.0")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
@@ -101,7 +101,7 @@ def event_stats(db: Session, event_id: str) -> dict:
 def event_landing(slug: str, request: Request, db: Session = Depends(get_db)):
     event = db.query(Event).filter(Event.slug == slug).first()
     if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
+        raise HTTPException(status_code=404, detail="Мероприятие не найдено")
     return templates.TemplateResponse("participant.html", {
         "request": request,
         "event": event,
@@ -123,9 +123,9 @@ async def submit_assessment(slug: str, request: Request, db: Session = Depends(g
 
     event = db.query(Event).filter(Event.slug == slug).first()
     if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
+        raise HTTPException(status_code=404, detail="Мероприятие не найдено")
     if event.status != "active":
-        raise HTTPException(status_code=400, detail="Event is closed")
+        raise HTTPException(status_code=400, detail="Мероприятие закрыто")
 
     # Create participant
     participant = Participant(
@@ -192,7 +192,7 @@ async def submit_assessment(slug: str, request: Request, db: Session = Depends(g
 def download_pdf(pid: str, db: Session = Depends(get_db)):
     participant = db.query(Participant).filter(Participant.id == pid, Participant.deleted_at.is_(None)).first()
     if not participant or not participant.score:
-        raise HTTPException(status_code=404, detail="Not found")
+        raise HTTPException(status_code=404, detail="Не найдено")
 
     event = participant.event
     pdf_bytes = generate_infographic_pdf(
@@ -212,7 +212,7 @@ def download_pdf(pid: str, db: Session = Depends(get_db)):
 def delete_participant(pid: str, db: Session = Depends(get_db)):
     participant = db.query(Participant).filter(Participant.id == pid).first()
     if not participant:
-        raise HTTPException(status_code=404, detail="Not found")
+        raise HTTPException(status_code=404, detail="Не найдено")
 
     # Soft delete: wipe PII, keep anonymous score for aggregates
     participant.name = None
@@ -229,7 +229,7 @@ def delete_participant(pid: str, db: Session = Depends(get_db)):
 def dashboard_page(slug: str, request: Request, db: Session = Depends(get_db)):
     event = db.query(Event).filter(Event.slug == slug).first()
     if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
+        raise HTTPException(status_code=404, detail="Мероприятие не найдено")
     stats = event_stats(db, event.id)
     return templates.TemplateResponse("dashboard.html", {
         "request": request,
@@ -248,7 +248,7 @@ def dashboard_page(slug: str, request: Request, db: Session = Depends(get_db)):
 def dashboard_stats(slug: str, db: Session = Depends(get_db)):
     event = db.query(Event).filter(Event.slug == slug).first()
     if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
+        raise HTTPException(status_code=404, detail="Мероприятие не найдено")
     return event_stats(db, event.id)
 
 
@@ -257,7 +257,7 @@ async def dashboard_stream(slug: str, db: Session = Depends(get_db)):
     """Server-Sent Events stream for live dashboard updates."""
     event = db.query(Event).filter(Event.slug == slug).first()
     if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
+        raise HTTPException(status_code=404, detail="Мероприятие не найдено")
 
     async def generate():
         while True:
@@ -288,7 +288,7 @@ async def admin_auth(request: Request):
     body = await request.json()
     if body.get("passphrase") == ADMIN_PASSPHRASE:
         return {"status": "ok"}
-    raise HTTPException(status_code=401, detail="Wrong passphrase")
+    raise HTTPException(status_code=401, detail="Неверный пароль")
 
 
 @app.get("/api/admin/events")
@@ -320,11 +320,11 @@ async def admin_create_event(request: Request, db: Session = Depends(get_db)):
     name = body.get("name", "").strip()
     slug = body.get("slug", "").strip().lower().replace(" ", "-")
     if not name or not slug:
-        raise HTTPException(status_code=400, detail="Name and slug required")
+        raise HTTPException(status_code=400, detail="Название и слаг обязательны")
 
     existing = db.query(Event).filter(Event.slug == slug).first()
     if existing:
-        raise HTTPException(status_code=400, detail="Slug already exists")
+        raise HTTPException(status_code=400, detail="Такой слаг уже существует")
 
     # Parse date string (YYYY-MM-DD) to Python date object
     event_date_str = body.get("event_date")
@@ -354,7 +354,7 @@ async def admin_update_event(event_id: str, request: Request, db: Session = Depe
     body = await request.json()
     event = db.query(Event).filter(Event.id == event_id).first()
     if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
+        raise HTTPException(status_code=404, detail="Мероприятие не найдено")
 
     if "status" in body:
         event.status = body["status"]
@@ -368,7 +368,7 @@ async def admin_update_event(event_id: str, request: Request, db: Session = Depe
 def admin_qr(event_id: str, request: Request, db: Session = Depends(get_db)):
     event = db.query(Event).filter(Event.id == event_id).first()
     if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
+        raise HTTPException(status_code=404, detail="Мероприятие не найдено")
 
     base = get_base_url(request)
     url = f"{base}/event/{event.slug}"

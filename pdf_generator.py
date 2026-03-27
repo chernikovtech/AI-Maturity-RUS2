@@ -19,10 +19,10 @@ MID_GREY = HexColor("#7A7A7A")
 LIGHT_BG = HexColor("#F5F5F5")
 WHITE = white
 LEVEL_COLORS = {
-    "Explorer": HexColor("#7A7A7A"),
-    "Learner": HexColor("#FF8C00"),
-    "Practitioner": HexColor("#FF1A1A"),
-    "Architect": HexColor("#141414"),
+    "Исследователь": HexColor("#7A7A7A"),
+    "Ученик": HexColor("#FF8C00"),
+    "Практик": HexColor("#FF1A1A"),
+    "Архитектор": HexColor("#141414"),
 }
 
 W, H = A4  # 595.28 x 841.89 points
@@ -58,7 +58,7 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
     c.drawString(30, H - 40, "YANGO TECH")
     c.setFont("Helvetica", 9)
     c.setFillColor(HexColor("#999999"))
-    c.drawString(30, H - 55, "AI Literacy Assessment")
+    c.drawString(30, H - 55, "Оценка AI-грамотности")
 
     # Big score
     c.setFillColor(WHITE)
@@ -96,7 +96,7 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
     y = H - header_h - 40
     c.setFillColor(DARK)
     c.setFont("Helvetica-Bold", 16)
-    c.drawString(30, y, "YOUR DIMENSIONS")
+    c.drawString(30, y, "ВАШИ ИЗМЕРЕНИЯ")
     y -= 10
 
     dim_keys = list(DIMENSIONS.keys())
@@ -132,10 +132,10 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
     y -= 50
     c.setFillColor(DARK)
     c.setFont("Helvetica-Bold", 16)
-    c.drawString(30, y, "AI LITERACY FRAMEWORK")
+    c.drawString(30, y, "ФРЕЙМВОРК AI-ГРАМОТНОСТИ")
     c.setFont("Helvetica", 9)
     c.setFillColor(MID_GREY)
-    c.drawString(30, y - 16, "Based on Nate Jones' 10-Level Fluency Scale & Judgment Layer")
+    c.drawString(30, y - 16, "На основе 10-уровневой шкалы Нейта Джонса и оценки критического мышления")
     y -= 40
 
     # Level boxes
@@ -176,8 +176,8 @@ def _draw_page(c, total_score, level, dimension_scores, event_name):
     # ── Footer ───────────────────────────────────────────────────────────
     c.setFillColor(MID_GREY)
     c.setFont("Helvetica", 7)
-    c.drawString(30, 20, "Powered by Yango Tech  |  Framework: Nate Jones / PAICE  |  tech.yango.com")
-    c.drawRightString(W - 30, 20, "This is a self-assessment indicator, not a certification.")
+    c.drawString(30, 20, "Yango Tech  |  Фреймворк: Nate Jones / PAICE  |  tech.yango.com")
+    c.drawRightString(W - 30, 20, "Это индикатор самооценки, а не сертификация.")
 
 
 def _draw_radar(c, cx, cy, radius, dimension_scores):
@@ -255,11 +255,11 @@ def _draw_framework_page(c):
     c.drawString(margin, H - 40, "YANGO TECH")
     c.setFont("Helvetica", 9)
     c.setFillColor(HexColor("#999999"))
-    c.drawString(margin, H - 55, "AI Maturity Framework")
+    c.drawString(margin, H - 55, "Фреймворк AI-зрелости")
 
     c.setFillColor(WHITE)
     c.setFont("Helvetica-Bold", 28)
-    c.drawString(margin, H - 105, "AI MATURITY FRAMEWORK")
+    c.drawString(margin, H - 105, "ФРЕЙМВОРК AI-ЗРЕЛОСТИ")
 
     # ── Body background ───────────────────────────────────────────────────
     c.setFillColor(LIGHT_BG)
@@ -270,15 +270,15 @@ def _draw_framework_page(c):
     # ── Dual-Track Philosophy ─────────────────────────────────────────────
     c.setFillColor(RED)
     c.setFont("Helvetica-Bold", 8)
-    c.drawString(margin, y, "CORE CONCEPT")
+    c.drawString(margin, y, "КЛЮЧЕВАЯ ИДЕЯ")
     y -= 20
     c.setFillColor(DARK)
     c.setFont("Helvetica-Bold", 16)
-    c.drawString(margin, y, "THE DUAL-TRACK PHILOSOPHY")
+    c.drawString(margin, y, "ФИЛОСОФИЯ ДВУХ ТРЕКОВ")
     y -= 16
     c.setFillColor(MID_GREY)
     c.setFont("Helvetica", 8)
-    c.drawString(margin, y, "True AI maturity requires synchronized progression of organizational infrastructure and individual capability.")
+    c.drawString(margin, y, "Настоящая AI-зрелость требует синхронного развития организационной инфраструктуры и индивидуальных компетенций.")
     y -= 25
 
     # Two track cards side by side
@@ -295,12 +295,12 @@ def _draw_framework_page(c):
 
     c.setFont("Helvetica-Bold", 8)
     c.setFillColor(DARK)
-    c.drawString(left_x + 14, y - 16, "ORGANIZATIONAL TRACK")
+    c.drawString(left_x + 14, y - 16, "ОРГАНИЗАЦИОННЫЙ ТРЕК")
     org_items = [
-        "Data infrastructure and security posture",
-        "Strategic resource allocation for AI initiatives",
-        "Ethical governance policies and compliance",
-        "Vendor and model management protocols",
+        "Инфраструктура данных и безопасность",
+        "Стратегическое распределение ресурсов для AI-инициатив",
+        "Этические политики и комплаенс",
+        "Управление поставщиками и моделями",
     ]
     c.setFont("Helvetica", 7.5)
     c.setFillColor(HexColor("#555555"))
@@ -319,12 +319,12 @@ def _draw_framework_page(c):
 
     c.setFont("Helvetica-Bold", 8)
     c.setFillColor(RED)
-    c.drawString(right_x + 14, y - 16, "INDIVIDUAL TRACK")
+    c.drawString(right_x + 14, y - 16, "ИНДИВИДУАЛЬНЫЙ ТРЕК")
     ind_items = [
-        "Prompt engineering and AI syntax fluency",
-        "Workflow integration capabilities",
-        "Critical output verification and judgment",
-        "Change management resilience",
+        "Промпт-инжиниринг и AI-грамотность",
+        "Интеграция AI в рабочие процессы",
+        "Критическая проверка результатов",
+        "Адаптивность к изменениям",
     ]
     c.setFont("Helvetica", 7.5)
     for i, item in enumerate(ind_items):
@@ -346,11 +346,11 @@ def _draw_framework_page(c):
     c.roundRect(left_x, y - risk_h, 3, risk_h, 2, fill=1, stroke=0)
     c.setFont("Helvetica-Bold", 8)
     c.setFillColor(RED)
-    c.drawString(left_x + 12, y - 16, "SHADOW AI")
+    c.drawString(left_x + 12, y - 16, "ТЕНЕВОЙ AI")
     c.setFont("Helvetica", 7)
     c.setFillColor(HexColor("#555555"))
-    c.drawString(left_x + 12, y - 30, "High individual adoption, low governance.")
-    c.drawString(left_x + 12, y - 42, "Security and compliance risk grows unchecked.")
+    c.drawString(left_x + 12, y - 30, "Высокое индивидуальное использование, низкое управление.")
+    c.drawString(left_x + 12, y - 42, "Риски безопасности и комплаенса растут бесконтрольно.")
 
     c.setFillColor(WHITE)
     c.roundRect(right_x, y - risk_h, risk_w, risk_h, 8, fill=1, stroke=0)
@@ -358,30 +358,30 @@ def _draw_framework_page(c):
     c.roundRect(right_x, y - risk_h, 3, risk_h, 2, fill=1, stroke=0)
     c.setFont("Helvetica-Bold", 8)
     c.setFillColor(DARK)
-    c.drawString(right_x + 12, y - 16, "SHELFWARE AI")
+    c.drawString(right_x + 12, y - 16, "AI НА ПОЛКЕ")
     c.setFont("Helvetica", 7)
     c.setFillColor(HexColor("#555555"))
-    c.drawString(right_x + 12, y - 30, "High infrastructure investment, zero adoption.")
-    c.drawString(right_x + 12, y - 42, "Training gaps leave workforce unable to extract value.")
+    c.drawString(right_x + 12, y - 30, "Большие инвестиции в инфраструктуру, нулевое использование.")
+    c.drawString(right_x + 12, y - 42, "Пробелы в обучении не позволяют сотрудникам извлекать пользу.")
 
     y -= risk_h + 30
 
     # ── 5 Stages of AI Maturity ───────────────────────────────────────────
     c.setFillColor(RED)
     c.setFont("Helvetica-Bold", 8)
-    c.drawString(margin, y, "PROGRESSION MODEL")
+    c.drawString(margin, y, "МОДЕЛЬ РАЗВИТИЯ")
     y -= 20
     c.setFillColor(DARK)
     c.setFont("Helvetica-Bold", 16)
-    c.drawString(margin, y, "THE 5 STAGES OF AI MATURITY")
+    c.drawString(margin, y, "5 СТАДИЙ AI-ЗРЕЛОСТИ")
     y -= 25
 
     stages = [
-        ("1. AWARENESS", "Ad-hoc experimentation. No official policy. High risk of data leaks and inconsistent outputs."),
-        ("2. EXPLORATION", "Sanctioned pilots begin. Basic guidelines established. Tooling is evaluated against use cases."),
-        ("3. TRANSITION", "Scaling successful pilots across business units. Official training programs launch organization-wide."),
-        ("4. INTEGRATION", "AI embedded in core workflows. Proprietary data connected securely. Measurable ROI tracked per department."),
-        ("5. TRANSFORMATION", "AI-first operations. Autonomous agents handle entire processes. Continuous learning culture is standard."),
+        ("1. ОСОЗНАНИЕ", "Стихийные эксперименты. Нет официальной политики. Высокий риск утечки данных."),
+        ("2. ИССЛЕДОВАНИЕ", "Начало санкционированных пилотов. Базовые правила. Оценка инструментов."),
+        ("3. ПЕРЕХОД", "Масштабирование пилотов. Запуск официальных программ обучения в организации."),
+        ("4. ИНТЕГРАЦИЯ", "AI встроен в ключевые процессы. Данные подключены безопасно. ROI измеряется по отделам."),
+        ("5. ТРАНСФОРМАЦИЯ", "AI-first операции. Автономные агенты управляют процессами. Культура непрерывного обучения."),
     ]
 
     stage_h = 48
@@ -421,5 +421,5 @@ def _draw_framework_page(c):
     # ── Footer ────────────────────────────────────────────────────────────
     c.setFillColor(MID_GREY)
     c.setFont("Helvetica", 7)
-    c.drawString(margin, 20, "Powered by Yango Tech  |  AI Maturity Framework  |  tech.yango.com")
-    c.drawRightString(W - margin, 20, "Read more: /framework")
+    c.drawString(margin, 20, "Yango Tech  |  Фреймворк AI-зрелости  |  tech.yango.com")
+    c.drawRightString(W - margin, 20, "Подробнее: /framework")

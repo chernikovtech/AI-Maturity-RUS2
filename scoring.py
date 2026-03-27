@@ -39,14 +39,14 @@ def compute_scores(answers: dict[str, int]) -> dict:
         total_score = 0.0
 
     # Determine level
-    level = "Explorer"
+    level = "Исследователь"
     for lvl in LEVELS:
         if lvl["min_pct"] <= total_score <= lvl["max_pct"]:
             level = lvl["label"]
             break
     # Handle edge case: score exactly 100
     if total_score > 75:
-        level = "Architect"
+        level = "Архитектор"
 
     return {
         "total_score": total_score,
